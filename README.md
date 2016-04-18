@@ -6,7 +6,7 @@ PhalconCMS
 
 #### php.ini配置
 * 在不同环境（开发、测试、线上）的php.ini中添加如下配置：
-	\`\`\`bash
+	```bash
 		;开发环境（默认为dev）
 		marser.runtime = 'dev'
 		
@@ -15,7 +15,7 @@ PhalconCMS
 		
 		;线上环境
 		marser.runtime = 'pro'
-	\`\`\`
+	```
 	程序会根据此变量，自动匹配环境所需的配置（api,system）文件
 
 #### nginx配置

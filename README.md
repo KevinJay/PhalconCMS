@@ -20,6 +20,7 @@ PhalconCMS
 
 #### nginx配置
 \`\`\`bash
+
 	server {
 	    listen 80;
 	    server_name test.com;

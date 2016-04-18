@@ -19,8 +19,7 @@ PhalconCMS
 	程序会根据此变量，自动匹配环境所需的配置（api,system）文件
 
 #### nginx配置
-\`\`\`bash
-
+```bash
 	server {
 	    listen 80;
 	    server_name test.com;
@@ -54,7 +53,7 @@ PhalconCMS
 	    access_log  /path/logs/Marser/access.log  access;
 	    error_log  /path/logs/Marser/error.log;
 	}
-\`\`\`
+```
 
 #### 社区
 [Phalcon中文社区][1] (http://www.iphalcon.cn)

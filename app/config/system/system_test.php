@@ -2,12 +2,16 @@
 
 /**
  * 系统配置--测试环境
+ * @category PhalconCMS
+ * @copyright Copyright (c) 2016 PhalconCMS team (http://www.marser.cn)
+ * @license GNU General Public License 2.0
+ * @link www.marser.cn
  */
 
 return array(
     'app' => array(
         //项目名称
-        'app_name' => 'marser',
+        'app_name' => 'PhalconCMS',
 
         //前台配置
         'frontend' => array(
@@ -15,7 +19,7 @@ return array(
             'controllers' => ROOT_PATH . '/app/frontend/controllers/',
 
             //控制器路径
-            'controllers_namespace' => 'marser\app\frontend\controllers',
+            'controllers_namespace' => 'Marser\App\Frontend\Controllers',
 
             //视图路径
             'views' => ROOT_PATH . '/app/frontend/views/',
@@ -33,7 +37,7 @@ return array(
             'controllers' => ROOT_PATH . '/app/backend/controllers/',
 
             //控制器路径
-            'controllers_namespace' => 'marser\app\backend\controllers',
+            'controllers_namespace' => 'Marser\App\Backend\Controllers',
 
             //视图路径
             'views' => ROOT_PATH . '/app/backend/views/',

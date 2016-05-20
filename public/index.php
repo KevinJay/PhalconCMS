@@ -1,9 +1,15 @@
 <?php
 
+/**
+ * @category PhalconCMS
+ * @copyright Copyright (c) 2016 PhalconCMS team (http://www.marser.cn)
+ * @license GNU General Public License 2.0
+ * @link www.marser.cn
+ */
+
 try {
 
-    $runtime = get_cfg_var('marser.runtime');
-    empty($runtime) && $runtime = 'dev';
+    $runtime = 'dev';
     define('RUNTIME', $runtime);
     define('ROOT_PATH', dirname(__DIR__));
 
@@ -26,11 +32,11 @@ try {
 
     $application -> registerModules(array(
         'frontend' => array(
-            'className' => 'marser\app\frontend\FrontendModule',
+            'className' => 'Marser\App\Frontend\FrontendModule',
             'path' => ROOT_PATH . '/app/frontend/FrontendModule.php',
         ),
         'backend' => array(
-            'className' => 'marser\app\backend\BackendModule',
+            'className' => 'Marser\App\Backend\BackendModule',
             'path' => ROOT_PATH . '/app/backend/BackendModule.php',
         ),
     ));

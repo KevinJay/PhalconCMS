@@ -2,22 +2,26 @@
 
 /**
  * DI注册服务配置文件
- * @package app/core
- * @version $Id
+ * @category PhalconCMS
+ * @copyright Copyright (c) 2016 PhalconCMS team (http://www.marser.cn)
+ * @license GNU General Public License 2.0
+ * @link www.marser.cn
  */
 
 use Phalcon\DI\FactoryDefault,
     Phalcon\Mvc\View,
     Phalcon\Mvc\Url as UrlResolver,
     Phalcon\Db\Profiler as DbProfiler,
-    Phalcon\Mvc\View\Engine\Volt as VoltEngine;
+    Phalcon\Mvc\Model\Manager as ModelsManager,
+    Phalcon\Mvc\View\Engine\Volt as VoltEngine,
+    Phalcon\Session\Adapter\Files as Session;
 
 $di = new FactoryDefault();
 
 /**
  * 设置路由
  */
-$di->set('router', function(){
+$di -> set('router', function(){
     $router = new \Phalcon\Mvc\Router();
     $router -> setDefaultModule('frontend');
 
@@ -30,16 +34,25 @@ $di->set('router', function(){
 });
 
 /**
- * DI注入cookies服务
+ * DI注册session服务
  */
-$di->set('cookies', function() {
+$di -> setShared('session', function(){
+    $session = new Session();
+    $session -> start();
+    return $session;
+});
+
+/**
+ * DI注册cookies服务
+ */
+$di -> set('cookies', function() {
     $cookies = new \Phalcon\Http\Response\Cookies();
     $cookies -> useEncryption(false);
     return $cookies;
 });
 
 /**
- * DI注入url服务
+ * DI注册url服务
  */
 $di -> set('url', function(){
     $url = new \Phalcon\Mvc\Url();
@@ -47,9 +60,9 @@ $di -> set('url', function(){
 });
 
 /**
- * DI注入DB配置
+ * DI注册DB配置
  */
-$di->set('db', function () use($config) {
+$di -> set('db', function () use($config) {
     $dbconfig = $config -> database -> db;
     $dbconfig = $dbconfig -> toArray();
     if (!is_array($dbconfig) || count($dbconfig)==0) {
@@ -73,8 +86,8 @@ $di->set('db', function () use($config) {
                 $sql = $profile->getSQLStatement();
                 $executeTime = $profile->getTotalElapsedSeconds();
                 //日志记录
-                $logger = \marser\app\core\PhalBaseLogger::getInstance();
-                $logger -> debug_log("{$sql} {$executeTime}");
+                $logger = \Marser\App\Core\PhalBaseLogger::getInstance();
+                $logger -> write_log("{$sql} {$executeTime}", 'debug');
             }
         });
     }
@@ -97,25 +110,41 @@ $di->set('db', function () use($config) {
 });
 
 /**
- * DI注入日志服务
+ * DI注册modelsManager服务
+ */
+$di -> setShared('modelsManager', function() use($di){
+    return new ModelsManager();
+});
+
+/**
+ * DI注册日志服务
  */
 $di -> setShared('logger', function() use($di){
-    $logger = \marser\app\core\PhalBaseLogger::getInstance();
+    $logger = \Marser\App\Core\PhalBaseLogger::getInstance();
     return $logger;
 });
 
 /**
- * DI注入api配置
+ * DI注册api配置
  */
 $di -> setShared('apiConfig', function() use($di){
-    $config = \marser\app\core\Config::getInstance('api');
+    $config = \Marser\App\Core\Config::getInstance('api');
     return $config;
 });
 
 /**
- * DI注入system配置
+ * DI注册system配置
  */
 $di -> setShared('systemConfig', function() use($di){
-    $config = \marser\app\core\Config::getInstance('system');
+    $config = \Marser\App\Core\Config::getInstance('system');
     return $config;
 });
+
+/**
+ * DI注册自定义验证器
+ */
+$di -> setShared('validator', function() use($di){
+    $validator = new \Marser\App\Libs\Validator();
+    return $validator;
+});
+

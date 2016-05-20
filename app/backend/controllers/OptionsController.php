@@ -1,7 +1,7 @@
 <?php
 
 /**
- *
+ * 设置
  * @category PhalconCMS
  * @copyright Copyright (c) 2016 PhalconCMS team (http://www.marser.cn)
  * @license GNU General Public License 2.0
@@ -12,7 +12,7 @@ namespace Marser\App\Backend\Controllers;
 use \Marser\App\Backend\Controllers\BaseController,
     \Marser\App\Backend\Models\OptionsModel;
 
-class OptionsController extends BaseController{
+class OptionsController extends BaseController{  
 
     /**
      * 站点基础配置

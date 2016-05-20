@@ -128,15 +128,14 @@ class Validator extends \Phalcon\Di\Injectable{
     }
 
     /**
-     * 最小长度
+     * 是否为空
      *
      * @access public
      * @param string $str 待处理的字符串
-     * @param integer $length 最小长度
      * @return boolean
      */
-    public static function min_length($str, $length){
-        return (mb_strlen($str, 'UTF-8') >= $length);
+    public function required($str){
+        return !empty($str);
     }
 
     /**
@@ -152,14 +151,23 @@ class Validator extends \Phalcon\Di\Injectable{
     }
 
     /**
-     * 是否为空
-     *
-     * @access public
-     * @param string $str 待处理的字符串
-     * @return boolean
+     * 验证是否相等
+     * @param $str
+     * @param $cstr
+     * @return bool
      */
-    public function required($str){
-        return !empty($str);
+    public function equals($one, $two){
+        return $one == $two;
+    }
+
+    /**
+     * 验证是否不相等
+     * @param $one
+     * @param $two
+     * @return bool
+     */
+    public function not_equals($one, $two){
+        return $one != $two;
     }
 
     /**
@@ -185,6 +193,18 @@ class Validator extends \Phalcon\Di\Injectable{
      */
     public static function max_length($str, $length){
         return (mb_strlen($str, 'UTF-8') < $length);
+    }
+
+    /**
+     * 最小长度
+     *
+     * @access public
+     * @param string $str 待处理的字符串
+     * @param integer $length 最小长度
+     * @return boolean
+     */
+    public static function min_length($str, $length){
+        return (mb_strlen($str, 'UTF-8') >= $length);
     }
 
     /**

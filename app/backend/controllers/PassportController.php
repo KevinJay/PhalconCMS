@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 登录控制器
+ * 通行证
  * @category PhalconCMS
  * @copyright Copyright (c) 2016 PhalconCMS team (http://www.marser.cn)
  * @license GNU General Public License 2.0

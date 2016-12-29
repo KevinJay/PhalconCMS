@@ -4,12 +4,12 @@ PhalconCMS
 基于Phalcon的博客CMS
 
 ### 推荐环境
-	* PHP 5.6+
-	* phalcon 2.0+
+* PHP 5.6+
+* phalcon 2.0+
 
 ### 安装
-	* 在数据库中导入phalconCMS.sql文件
-	* 添加nginx配置，demo:
+* 在数据库中导入phalconCMS.sql文件
+* 添加nginx配置，demo:
 ```bash
 	server {
 	    listen 80;
@@ -45,7 +45,6 @@ PhalconCMS
 	    error_log  /path/logs/Marser/error.log;
 	}
 ```
-	* 
 
 #### 环境匹配设置
 * 在不同环境（开发、测试、线上）上运行此项目时，请修改index.php中的``` "$runtime" ```值：
@@ -59,6 +58,10 @@ PhalconCMS
 
 #### 作者
 [www.marser.cn][2] (http://www.marser.cn)
+
+#### QQ群
+* 广州PHP高端交流群：158587573
+* Phalcon玩家群：150237524
 
 [1]:	http://www.iphalcon.cn
 [2]:	http://www.marser.cn

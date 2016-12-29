@@ -21,12 +21,25 @@ class FrontendModule implements ModuleDefinitionInterface{
 
     }
 
+    /**
+     * DI注册相关服务
+     * @param DiInterface $di
+     */
     public function registerServices(DiInterface $di){
-        $systemConfig = $di -> get('systemConfig');
+        /** DI注册dispatcher服务 */
+        $this -> registerDispatcherService($di);
+        /**DI注册url服务*/
+        $this -> registerUrlService($di);
+        /**DI注册前台view*/
+        $this -> registerViewService($di);
+    }
 
-        /**
-         * DI注册前台dispatcher
-         */
+    /**
+     * DI注册dispatcher服务
+     * @param DiInterface $di
+     */
+    protected function registerDispatcherService(DiInterface $di){
+        $systemConfig = $di -> get('systemConfig');
         $di->set('dispatcher', function() use ($systemConfig) {
             $eventsManager = new \Phalcon\Events\Manager();
             $eventsManager->attach("dispatch:beforeException", function($event, $dispatcher, $exception) {
@@ -49,23 +62,43 @@ class FrontendModule implements ModuleDefinitionInterface{
             });
             $dispatcher = new \Phalcon\Mvc\Dispatcher();
             $dispatcher->setEventsManager($eventsManager);
-            $dispatcher->setDefaultNamespace($systemConfig -> get('app', 'frontend', 'controllers_namespace'));
+            //默认设置为前台的调度器
+            $dispatcher->setDefaultNamespace($systemConfig -> app -> root_namespace . '\\App\\Frontend\\Controllers');
             return $dispatcher;
         }, true);
+    }
 
-        /**
-         * DI注册前台view
-         */
-        $di -> set('view', function() use($systemConfig) {
+    /**
+     * DI注册url服务
+     * @param DiInterface $di
+     */
+    protected function registerUrlService(DiInterface $di){
+        $systemConfig = $di -> get('systemConfig');
+        $di -> setShared('url', function() use($systemConfig) {
+            $url = new \Phalcon\Mvc\Url();
+            $url -> setBaseUri($systemConfig -> app -> frontend -> module_pathinfo);
+            return $url;
+        });
+    }
+
+    /**
+     * DI注册view服务
+     * @param DiInterface $di
+     */
+    protected function registerViewService(DiInterface $di){
+        $systemConfig = $di -> get('systemConfig');
+        $di -> setShared('view', function() use($systemConfig) {
             $view = new \Phalcon\Mvc\View();
-            $view -> setViewsDir($systemConfig -> get('app', 'frontend', 'views'));
+            $view -> setViewsDir($systemConfig -> app -> frontend -> views);
             $view -> registerEngines(array(
                 '.phtml' => function($view, $di) use($systemConfig) {
-                    $volt = new \Phalcon\Mvc\View\Engine\Volt($view, $di);
+                    //$volt = new \Phalcon\Mvc\View\Engine\Volt($view, $di);
+                    $volt = new \Marser\App\Core\PhalBaseVolt($view, $di);
                     $volt -> setOptions(array(
-                        'compileAlways' => $systemConfig -> get('app', 'frontend', 'is_compiled'),
-                        'compiledPath'  =>  $systemConfig -> get('app', 'frontend', 'compiled_path')
+                        'compileAlways' => $systemConfig -> app -> frontend -> is_compiled,
+                        'compiledPath'  =>  $systemConfig -> app -> frontend -> compiled_path
                     ));
+                    $volt -> initFunction();
                     return $volt;
                 },
             ));

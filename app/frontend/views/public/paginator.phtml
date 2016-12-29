@@ -1,0 +1,17 @@
+<div class="page_num">
+    {% if paginator.first == paginator.current %}
+        <a href="javascript:void(0);" class="disabled">&laquo; 上一页</a>
+    {% else %}
+        <a href="{{get_page_url(paginator.before)}}" rel="prev">&laquo; 上一页</a>
+    {% endif %}
+    {% for page in pageNum %}
+        <a href="{{get_page_url(page)}}" {% if paginator.current == page %}class="current"{% endif %} rel="index">
+            {{page}}
+        </a>
+    {% endfor %}
+    {% if paginator.last == paginator.current %}
+        <a href="javascript:void(0);" class="disabled">下一页 &raquo;</a>
+    {% else %}
+        <a href="{{get_page_url(paginator.next)}}" rel="next">下一页 &raquo;</a>
+    {% endif %}
+</div>

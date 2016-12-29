@@ -1,0 +1,155 @@
+<ul class="xoxo">
+<!--    <li id="frontloginblock-2" class="widget-container widget_login">-->
+<!--        <div class="front_login_box">-->
+<!--            <div class="from_box">-->
+<!--                <form name="loginform" id="loginform" action="//wp-login.php" method="post">-->
+<!--                    <p class="p1">-->
+<!--                                    <span>-->
+<!--                                        <i class="icon-user icon-2x"></i>-->
+<!--                                    </span>-->
+<!--                        <input onfocus="this.value = '';" name="log" id="user_login" type="text" class="user_name" value="User Name"/>-->
+<!--                    </p>-->
+<!--                    <p class="p1" style="margin-bottom:30px;">-->
+<!--                                    <span>-->
+<!--                                        <i class="icon-lock icon-2x"></i>-->
+<!--                                    </span>-->
+<!--                        <input onfocus="this.value = '';this.type = 'password';" name="pwd" id="user_pass" type="text" class="password" value="Your Password"/>-->
+<!--                    </p>-->
+<!--                    <p class="p2">-->
+<!--                        <input name="提交" type="submit" class="submit_button" value="登 录"/>-->
+<!--                    </p>-->
+<!--                    <p class="p3">-->
+<!--                                    <span style="float:right">-->
+<!--                                        <i class="icon-signin"></i>-->
+<!--                                        <a href="//wp-login.php?action=register">注册</a>-->
+<!--                                    </span>-->
+<!--                        <span class="keep_me">-->
+<!--                                        <label style="display:none;" for="rememberme">-->
+<!--                                            <input name="rememberme" type="checkbox" id="rememberme" value="forever">-->
+<!--                                        </label>-->
+<!--                                        <i class="icon-check-empty"></i> 记住我的登录信息-->
+<!--                                    </span>-->
+<!--                    </p>-->
+<!--                    <input type="hidden" name="redirect_to" value="//">-->
+<!--                </form>-->
+<!--            </div>-->
+<!--            <script type="text/javascript">-->
+<!--                jQuery(function ($) {-->
+<!--                    $('.keep_me').click(function () {-->
+<!--                        var nowSet = $(this).find('i').attr('class');-->
+<!--                        if (nowSet == "icon-check-empty") {-->
+<!--                            $(this).find('i').attr('class', 'icon-check');-->
+<!--                            $(this).find('#rememberme').attr('checked', '')-->
+<!--                        } else {-->
+<!--                            $(this).find('i').attr('class', 'icon-check-empty');-->
+<!--                            $(this).find('#rememberme').removeAttr('checked')-->
+<!--                        }-->
+<!--                    })-->
+<!--                });-->
+<!--            </script>-->
+<!--        </div>-->
+<!--    </li>-->
+<!--    <li id="text-2" class="widget-container widget_text">-->
+<!--        <div class="textwidget">-->
+<!--            <script type="text/javascript">-->
+<!--                /*首页最上面的固定图片*/-->
+<!--                var cpro_id = "u1367120";-->
+<!--            </script>-->
+<!--        </div>-->
+<!--    </li>-->
+<!--    <li id="text-3" class="widget-container widget_text">-->
+<!--        <div class="textwidget">-->
+<!--            <div class="d3_btn">-->
+<!--                <a class="down_theme" href="//1378.html">-->
+<!--                    <p>Frontopen Theme 2 主题下载</p>-->
+<!--                </a>-->
+<!--            </div>-->
+<!--            <div class="cls"></div>-->
+<!--        </div>-->
+<!--    </li>-->
+    {% if recommendArticles is not empty %}
+        <li id="advancedrandomposts-2" class="widget-container widget_advancedrandomposts">
+            <h3 class="widget-title">推荐阅读</h3>
+            <ul class="advanced-random-posts">
+                {% for rv in recommendArticles %}
+                    <li>
+                        <a href={{url("article/"~rv['aid']~".html")}} title="{{rv['title']}}" rel="bookmark">
+                            {{rv['title']}}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
+    {% endif %}
+    {% if categorysList is not empty %}
+        <li id="linkcat-360" class="widget-container widget_links"><h3 class="widget-title">分类</h3>
+            <ul class='xoxo blogroll'>
+                {% for clk, clv in categorysList %}
+                    <li>
+                        {% if clv['slug'] is not empty %}
+                            <a href={{url("category/"~clv['slug']~".html")}} rel="bookmark" title="{{clv['category_name']}}">
+                                {{clv['category_name']}}
+                            </a>
+                        {% else %}
+                            <a href={{url("category/"~clv['cid']~".html")}} rel="bookmark" title="{{clv['category_name']}}">
+                                {{clv['category_name']}}
+                            </a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
+    {% endif %}
+    {% if tagsList is not empty %}
+    <li id="tag_cloud-2" class="widget-container widget_tag_cloud">
+        <h3 class="widget-title">标签</h3>
+        <div class="tagcloud">
+            {% for tlk,tlv in tagsList %}
+                {% if tlv['slug'] is not empty %}
+                    <a href={{url("tag/"~tlv['slug']~".html")}} class='tag-link-{{tlk}}' title="{{tlv['tag_name']}}" rel="bookmark">{{tlv['tag_name']}}</a>
+                {% else %}
+                    <a href={{url("tag/"~tlv['tid']~".html")}} class='tag-link-{{tlk}}' title="{{tlv['tag_name']}}" rel="bookmark">{{tlv['tag_name']}}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </li>
+    {% endif %}
+<!--    <li id="linkcat-360" class="widget-container widget_links"><h3 class="widget-title">左邻右舍</h3>-->
+<!--        <ul class='xoxo blogroll'>-->
+<!--            <li><a href="http://www.99kaifa.com" target="_blank">99开发赞助</a></li>-->
+<!--            <li><a href="http://www.aijava.cn" target="_blank">AiJava</a></li>-->
+<!--            <li><a href="http://xiedexu.cn" target="_blank">DeXu.Xie&#039;s Blog</a></li>-->
+<!--            <li><a href="http://htcui.com">hTc发烧友</a></li>-->
+<!--            <li><a href="http://www.tennfy.com" target="_blank">TENNFY WU</a></li>-->
+<!--            <li><a href="http://www.aseoe.com" target="_blank">web前端开发</a></li>-->
+<!--            <li><a href="/">前端开发</a></li>-->
+<!--            <li><a href="http://www.lajiz.cn" target="_blank">垃圾站</a></li>-->
+<!--            <li><a href="http://www.wanziapp.com" target="_blank">丸子应用</a></li>-->
+<!--            <li><a href="http://www.ycysky.com" target="_blank">异次元sky</a></li>-->
+<!--            <li><a href="http://www.zlphp.com" target="_blank">郑力个人主页</a></li>-->
+<!---->
+<!--        </ul>-->
+<!--    </li>-->
+<!--    <li id="text-4" class="widget-container widget_text">-->
+<!--        <div class="textwidget">-->
+<!--            <p>友情链接交换要求百度权重≥4，百度快照在1周以内，收录≥300页。不符合以上要求的站点，将定期把友情连接转入内页(<a-->
+<!--                    href="//links">前端开拓者内页友情连接</a>)，谢谢合作。-->
+<!--            </p>-->
+<!--            <p>申请友链 QQ：11722 5497</p></div>-->
+<!--    </li>-->
+    <li id="siteinfowidget-2" class="widget-container widget_links">
+        <h3 class="widget-title">站点统计</h3>
+        <ul class="xoxo siteInfo">
+            <li>文章总数：{{totalArticle}}篇</li>
+            <li>分类总数：{{totalCategory}}个</li>
+            <li>标签总数：{{totalTag}}个</li>
+        </ul>
+    </li>
+    <li id="text-5" class="widget-container widget_text">
+        <div class="textwidget">
+            <script type="text/javascript">
+                /*300*250，创建于2013-9-11*/
+            </script>
+        </div>
+    </li>
+</ul>

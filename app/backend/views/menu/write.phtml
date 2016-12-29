@@ -1,0 +1,88 @@
+<div class="breadcrumbs" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="icon-home home-icon"></i>
+            <a href="{{ url('dashboard/index') }}">控制面板</a>
+        </li>
+        <li>
+            <a href="{{ url('menu/index') }}">菜单管理</a>
+        </li>
+    </ul>
+</div>
+<div class="page-content">
+    <div class="page-header">
+        <h1>
+            <a href="{{ url('menu/index') }}">菜单管理</a>
+            <small>
+                <i class="icon-double-angle-right"></i>
+                {% if menu is not empty %}
+                    编辑菜单
+                {% else %}
+                    新增菜单
+                {% endif %}
+            </small>
+        </h1>
+    </div>
+    <div class="col-lg-12">
+        <form action="{{url('menu/save')}}" method="post" class="form-horizontal" id="menu-form">
+            <div class="form-group has-feedback">
+                <label for="menu-name" class="col-sm-2 control-label">菜单名称</label>
+                <div class="col-sm-5">
+                    <input type="text" name="name" {% if menu is not empty %}value="{{menu['menu_name']}}"{% endif %}
+                           class="form-control" id="menu-name" placeholder="请填写菜单名称">
+                </div>
+            </div>
+            <div class="form-group ">
+                <label for="menu-url" class="col-sm-2 control-label">链接</label>
+                <div class="col-sm-5">
+                    <input type="text" name="url" {% if menu is not empty %}value="{{menu['menu_url']}}"{% endif %}
+                           class="form-control" id="menu-url" placeholder="/index/index">
+                </div>
+            </div>
+            <fieldset>
+                <div class="form-group">
+                    <label for="menu-parent" class="col-sm-2 control-label">父级菜单</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" name="parentmid">
+                            <option>请选择</option>
+                            {% for value in menuList %}
+                                {% if menu is not empty and menu['parent_mid'] == value['mid'] %}
+                                    <option value="{{value['mid']}}" selected="selected">
+                                {% elseif value['mid'] == parentmid %}
+                                    <option value="{{value['mid']}}" selected="selected">
+                                {% else %}
+                                    <option value="{{value['mid']}}">
+                                {% endif %}
+                                {% if value['parent_mid'] > 0 %}
+                                    ├─{{ str_repeat('──', substr_count(value['path'], '/')) }}
+                                    {{value['menu_name']}}
+                                {% else %}
+                                    ├─{{value['menu_name']}}
+                                {% endif %}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="form-group">
+                <label for="menu-sort" class="col-sm-2 control-label">菜单排序</label>
+                <div class="col-sm-5">
+                    <input type="text" name="sort" {% if menu is not empty %}value="{{menu['sort']}}"{% endif %}
+                           class="form-control" id="menu-sort" placeholder="999" />
+                    <span class="form-tips">数字越小，菜单排序越靠前。排序区间为1-999</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-5">
+                    {% if menu['mid'] is not empty %}
+                        <input type="hidden" name="mid" value="{{menu['mid']}}" />
+                        <button type="submit" id="menu-btn" class="btn btn-info btn-sm">保存菜单</button>
+                    {% else %}
+                        <button type="submit" id="menu-btn" class="btn btn-info btn-sm">新增菜单</button>
+                    {% endif %}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

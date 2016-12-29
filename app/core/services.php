@@ -52,17 +52,9 @@ $di -> set('cookies', function() {
 });
 
 /**
- * DI注册url服务
- */
-$di -> set('url', function(){
-    $url = new \Phalcon\Mvc\Url();
-    return $url;
-});
-
-/**
  * DI注册DB配置
  */
-$di -> set('db', function () use($config) {
+$di -> setShared('db', function () use($config) {
     $dbconfig = $config -> database -> db;
     $dbconfig = $dbconfig -> toArray();
     if (!is_array($dbconfig) || count($dbconfig)==0) {
@@ -117,6 +109,15 @@ $di -> setShared('modelsManager', function() use($di){
 });
 
 /**
+ * DI注册缓存服务
+ */
+$di -> setShared('cache', function() use($config){
+    return new \Phalcon\Cache\Backend\File(new \Phalcon\Cache\Frontend\Output(), array(
+        'cacheDir' => $config -> app -> cache_path
+    ));
+});
+
+/**
  * DI注册日志服务
  */
 $di -> setShared('logger', function() use($di){
@@ -128,15 +129,14 @@ $di -> setShared('logger', function() use($di){
  * DI注册api配置
  */
 $di -> setShared('apiConfig', function() use($di){
-    $config = \Marser\App\Core\Config::getInstance('api');
+    $config = \Phalcon\Config\Adapter\Php(ROOT_PATH . '/app/config/api/api_' . RUNTIME . '.php');
     return $config;
 });
 
 /**
  * DI注册system配置
  */
-$di -> setShared('systemConfig', function() use($di){
-    $config = \Marser\App\Core\Config::getInstance('system');
+$di -> setShared('systemConfig', function() use($config){
     return $config;
 });
 
@@ -144,7 +144,16 @@ $di -> setShared('systemConfig', function() use($di){
  * DI注册自定义验证器
  */
 $di -> setShared('validator', function() use($di){
-    $validator = new \Marser\App\Libs\Validator();
+    $validator = new \Marser\App\Libs\Validator($di);
     return $validator;
+});
+
+/**
+ * DI注册过滤器
+ */
+$di -> setShared('filter', function() use($di){
+    $filter = new \Marser\App\Core\PhalBaseFilter($di);
+    $filter -> init();
+    return $filter;
 });
 

@@ -1,0 +1,126 @@
+<div class="breadcrumbs" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="icon-home home-icon"></i>
+            <a href="{{ url('dashboard/index') }}">控制面板</a>
+        </li>
+        <li>
+            <a href="{{ url('menu/index') }}">菜单管理</a>
+        </li>
+    </ul>
+</div>
+<div class="page-content">
+    <div class="page-header">
+        <h1>
+            <a href="{{ url('menu/index') }}">菜单管理</a>
+            <small>
+                <i class="icon-double-angle-right"></i>
+                菜单列表
+            </small>
+        </h1>
+    </div>
+    <div class="col-lg-12">
+        <div class="btn-panel">
+            <a href="{{ url('menu/write') }}" class="btn btn-success btn-sm" role="button">新增菜单</a>
+            <a href="{{ url('menu/refresh') }}" class="btn btn-pink btn-sm" role="button">清除菜单缓存</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table tree-grid table-bordered table-condensed table-hover" id="menu-table">
+                <thead>
+                <tr>
+                    <th>菜单名称</th>
+                    <th>链接</th>
+                    <th>排序</th>
+                    <th>更新时间</th>
+                    <th>&nbsp;</th>
+                </tr>
+                </thead>
+                {% if menuList is not empty %}
+                    <tbody>
+                        {% for menu in menuList %}
+                            {% if menu['parent_mid'] is not empty %}
+                                <tr class="treegrid-{{menu['mid']}} treegrid-parent-{{menu['parent_mid']}}">
+                            {% else %}
+                                <tr class="treegrid-{{menu['mid']}}">
+                            {% endif %}
+                                <td>
+                                    <a href="{{ url('menu/write?mid='~menu['mid']) }}" title="编辑菜单">
+                                        {{ menu['menu_name'] }}
+                                    </a>
+                                </td>
+                                <td>{{ menu['menu_url'] }}</td>
+                                <td>
+                                    <a href="javascript:void(0);" class="menu-sort-block" data-name="sort"
+                                       data-url="{{ url('menu/savesort') }}"
+                                       data-pk="{{menu['mid']}}" data-type="text"
+                                       data-placement="top" data-title="修改菜单排序">
+                                        {{ menu['sort'] }}
+                                    </a>
+                                </td>
+                                <td>{{ menu['modify_time'] }}</td>
+                                <td>
+                                    <a class="btn btn-xs btn-success" href="{{ url('menu/write?parentmid='~menu['mid']) }}">
+                                        <i class="icon-plus bigger-120"></i>
+                                    </a>
+                                    <a class="btn btn-xs btn-info" href="{{ url('menu/write?mid='~menu['mid']) }}">
+                                        <i class="icon-edit bigger-120"></i>
+                                    </a>
+                                    <button class="btn btn-xs btn-danger delete-menu" data-url="{{ url('menu/delete?mid='~menu['mid']) }}">
+                                        <i class="icon-trash bigger-120"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                {% else %}
+                    <tbody>
+                    <tr>
+                        <td colspan="8">暂无数据</td>
+                    </tr>
+                    </tbody>
+                {% endif %}
+            </table>
+        </div>
+    </div>
+</div>
+<link href="{{ static_url('bootstrap-editable/css/bootstrap-editable.css?_v=')~assetsVersion }}" rel="stylesheet"/>
+<script src="{{ static_url('bootstrap-editable/js/bootstrap-editable.min.js?_v=')~assetsVersion }}"></script>
+<script>
+    $.fn.editable.defaults.mode = 'popup';
+    $('.menu-sort-block').editable({
+        params:function(params){
+            params.sort = params.value;
+            params.mid = params.pk;
+            if(params.sort <= 0 || params.sort > 999){
+                params.sort = 999;
+            }
+            return params;
+        },
+        success:function(response, value){
+            if (typeof response !== 'object') response = JSON.parse(response);
+            if(response.code == 1){
+                tips_message(response.message, 'success');
+            }else{
+                tips_message(response.message, 'error');
+            }
+            return true;
+        },
+        error:function(response){
+            tips_message('网络错误，请重试');
+        },
+        display:function(value){
+            if(value <= 0 || value > 999){
+                value = 999;
+            }
+            $(this).html(value);
+        }
+    });
+
+    $('.delete-menu').on('click', function(){
+        var dataUrl = $.trim($(this).attr('data-url'));
+        if(!window.confirm('确定要删除选中菜单吗？此操作不可挽回')){
+            return false;
+        }
+        window.location.href = dataUrl;
+    });
+</script>

@@ -22,18 +22,32 @@ class OptionsModel extends BaseModel{
     }
 
     /**
+     * 获取配置项数据
+     * @param array $ext
+     * @return mixed
+     * @throws \Exception
+     */
+    public function get_list(array $ext=array()){
+        $result = $this -> find();
+        if(!$result){
+            throw new \Exception('获取配置数据失败');
+        }
+        $options = $result -> toArray();
+        return $options;
+    }
+
+    /**
      * 更新配置项
      * @param array $data
      * @param $opkey
      * @return int
      * @throws \Exception
      */
-    public function update_options(array $data, $opkey){
-        $data = array_filter($data);
-        $data = array_unique($data);
-        if(!is_array($data) || count($data) == 0){
+    public function update_record(array $data, $opkey){
+        if(count($data) == 0 || empty($opkey)){
             throw new \Exception('参数错误');
         }
+
         $keys = array_keys($data);
         $values = array_values($data);
         $result = $this -> db -> update(
@@ -43,7 +57,6 @@ class OptionsModel extends BaseModel{
             array(
                 'conditions' => 'op_key = ?',
                 'bind' => array($opkey)
-                //'bindTypes' => array(\PDO::PARAM_STR)
             )
         );
         if(!$result){

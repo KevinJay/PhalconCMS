@@ -9,27 +9,21 @@
  */
 namespace Marser\App\Backend\Controllers;
 
-class IndexController extends \Phalcon\Mvc\Controller{
+use \Marser\App\Backend\Controllers\BaseController;
 
-    public function testAction(){
-        $this -> view -> title = 'index/test';
-        $this -> view -> setVars(
-            array(
-                'menu' =>  array(
-                    'title' =>  'fuck fuck fuck',
-                    'addLink'   =>  'www.baidu.com',
-                ),
-            )
-        );
-        $this -> view -> pick('index/test');
+class IndexController extends BaseController{
+
+    /**
+     * 控制面板
+     */
+    public function indexAction(){
+        return $this -> redirect('dashboard/index');
     }
 
-    public function aAction(){
-        $this -> view -> title = 'aaaa';
-        $this -> view -> pick('index/a');
-    }
-
+    /**
+     * 404页面
+     */
     public function notfoundAction(){
-        echo 'backend 404';exit;
+        return $this -> response -> setHeader('status', '404 Not Found');
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- *
+ * 用户model
  * @category PhalconCMS
  * @copyright Copyright (c) 2016 PhalconCMS team (http://www.marser.cn)
  * @license GNU General Public License 2.0
@@ -21,54 +21,60 @@ class UsersModel extends BaseModel{
     }
 
     /**
-     * 获取用户详细数据
+     * 获取用户数据
      * @param $username
      * @param array $ext
      * @return \Phalcon\Mvc\Model
      * @throws \Exception
      */
-    public function user_detail($username, array $ext=array()){
+    public function detail($username, array $ext=array()){
         if(empty($username)){
             throw new \Exception('参数错误');
         }
         $params = array(
-            'conditions' => 'username=:username:',
-            'bind' => [
+            'conditions' => 'username = :username:',
+            'bind' => array(
                 'username' => $username,
-            ],
+            ),
         );
         if(isset($ext['columns']) && !empty($ext['columns'])){
             $params['columns'] = $ext['columns'];
         }
         $result = $this -> findFirst($params);
+        if(!$result){
+            throw new \Exception('获取用户信息失败');
+        }
         return $result;
     }
 
     /**
-     * 更新个人设置数据
+     * 自定义的update事件
      * @param array $data
-     * @param $username
+     * @return array
+     */
+    protected function before_update(array $data){
+        if(empty($data['modify_time'])){
+            $data['modify_time'] = time();
+        }
+        return $data;
+    }
+
+    /**
+     * 更新用户数据
+     * @param array $data
+     * @param int $uid
      * @return int
      * @throws \Exception
      */
-    public function update_user(array $data, $username){
-        $data = array_filter($data);
-        $data = array_unique($data);
-        if(!is_array($data) || count($data) == 0){
+    public function update_record(array $data, $uid){
+        $uid = intval($uid);
+        if(count($data) == 0 || $uid <= 0){
             throw new \Exception('参数错误');
         }
-        $keys = array_keys($data);
-        $values = array_values($data);
-        $result = $this -> db -> update(
-            $this->getSource(),
-            $keys,
-            $values,
-            array(
-                'conditions' => 'username = ?',
-                'bind' => array($username)
-                //'bindTypes' => array(\PDO::PARAM_STR)
-            )
-        );
+        $data = $this -> before_update($data);
+
+        $this -> uid = $uid;
+        $result = $this -> iupdate($data);
         if(!$result){
             throw new \Exception('更新失败');
         }

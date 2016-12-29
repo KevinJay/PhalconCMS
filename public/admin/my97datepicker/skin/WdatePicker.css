@@ -1,0 +1,10 @@
+.form-group input.Wdate{
+	background-color:#fff;
+	background: url(datePicker.gif) no-repeat right;
+}
+.Wdate::-ms-clear{display:none;}
+
+.WdateFmtErr{
+	font-weight:bold;
+	color:red;
+}

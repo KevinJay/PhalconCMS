@@ -1,0 +1,96 @@
+<div class="breadcrumbs" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="icon-home home-icon"></i>
+            <a href="{{ url('dashboard/index') }}">控制面板</a>
+        </li>
+        <li>
+            <a href="{{ url('categorys/index') }}">分类管理</a>
+        </li>
+    </ul>
+</div>
+<div class="page-content">
+    <div class="page-header">
+        <h1>
+            <a href="{{ url('categorys/index') }}">分类管理</a>
+            <small>
+                <i class="icon-double-angle-right"></i>
+                {% if category is not empty %}
+                    编辑分类
+                {% else %}
+                    新增分类
+                {% endif %}
+            </small>
+        </h1>
+    </div>
+    <div class="col-lg-12">
+        <form action="{{url('categorys/save')}}" method="post" class="form-horizontal" id="category-form">
+            <div class="form-group has-feedback">
+                <label for="category-name" class="col-sm-2 control-label">分类名称</label>
+                <div class="col-sm-5">
+                    <input type="text" name="name" {% if category is not empty %}value="{{category['category_name']}}"{% endif %}
+                           class="form-control" id="category-name" placeholder="请填写分类名称">
+                    <span class="form-tips">分类名称由中英文字符、数字、下划线和横杠组成</span>
+                </div>
+            </div>
+            <div class="form-group ">
+                <label for="category-slug" class="col-sm-2 control-label">缩略名</label>
+                <div class="col-sm-5">
+                    <input type="text" name="slug" {% if category is not empty %}value="{{category['slug']}}"{% endif %}
+                           class="form-control" id="category-slug" placeholder="请填写缩略名">
+                    <span class="form-tips">分类缩略名用于创建友好的链接形式，建议使用英文字母、数据、下划线和横杠。默认为空</span>
+                </div>
+            </div>
+            <fieldset>
+                <div class="form-group">
+                    <label for="category-parent" class="col-sm-2 control-label">父级分类</label>
+                    <div class="col-sm-5">
+                        <select class="form-control" name="parentcid">
+                            <option>请选择</option>
+                            {% for value in categoryList %}
+                                {% if category is not empty and category['parent_cid'] == value['cid'] %}
+                                    <option value="{{value['cid']}}" selected="selected">
+                                {% elseif value['cid'] == parentcid %}
+                                    <option value="{{value['cid']}}" selected="selected">
+                                {% else %}
+                                    <option value="{{value['cid']}}">
+                                {% endif %}
+                                {% if value['parent_cid'] > 0 %}
+                                    ├─{{ str_repeat('──', substr_count(value['path'], '/')) }}
+                                    {{value['category_name']}}
+                                {% else %}
+                                    ├─{{value['category_name']}}
+                                {% endif %}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="form-group">
+                <label for="category-sort" class="col-sm-2 control-label">分类排序</label>
+                <div class="col-sm-5">
+                    <input type="text" name="sort" {% if category is not empty %}value="{{category['sort']}}"{% endif %}
+                           class="form-control" id="category-sort" placeholder="999" />
+                    <span class="form-tips">数字越小，分类排序越靠前。排序区间为1-999</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="category-description" class="col-sm-2 control-label">分类描述</label>
+                <div class="col-sm-5">
+                    <textarea name="description" class="form-control" rows="5">{% if category is not empty %}{{category['description']}}{% endif %}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-5">
+                    {% if category['cid'] is not empty %}
+                        <input type="hidden" name="cid" value="{{category['cid']}}" />
+                        <button type="submit" id="category-btn" class="btn btn-info btn-sm">保存分类</button>
+                    {% else %}
+                        <button type="submit" id="category-btn" class="btn btn-info btn-sm">新增分类</button>
+                    {% endif %}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

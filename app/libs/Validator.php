@@ -1,7 +1,7 @@
 <?php
 
 /**
- *
+ * 校验器
  * @category PhalconCMS
  * @copyright Copyright (c) 2016 PhalconCMS team (http://www.marser.cn)
  * @license GNU General Public License 2.0
@@ -10,7 +10,15 @@
 
 namespace Marser\App\Libs;
 
-class Validator extends \Phalcon\Di\Injectable{
+use \Phalcon\DiInterface;
+
+class Validator {
+
+    /**
+     * DI对象
+     * @var \Phalcon|DI
+     */
+    private $_di;
 
     /**
      * 内部数据
@@ -44,8 +52,24 @@ class Validator extends \Phalcon\Di\Injectable{
      */
     private $_break = true;
 
-    public function __construct(){
+    public function __construct(DiInterface $di){
+        $this -> setDI($di);
+    }
 
+    /**
+     * DI对象赋值
+     * @param DiInterface $di
+     */
+    public function setDI(DiInterface $di){
+        $this -> _di = $di;
+    }
+
+    /**
+     * 获取DI对象
+     * @return DI|\Phalcon
+     */
+    public function getDI(){
+        return $this -> _di;
     }
 
     /**
@@ -168,6 +192,15 @@ class Validator extends \Phalcon\Di\Injectable{
      */
     public function not_equals($one, $two){
         return $one != $two;
+    }
+
+    /**
+     * 检测时间格式是否正确
+     * @param $str
+     * @return bool
+     */
+    public function check_time($str){
+        return strtotime($str) ? true : false;
     }
 
     /**
@@ -312,7 +345,7 @@ class Validator extends \Phalcon\Di\Injectable{
      * @return boolean
      */
     public static function is_float($str){
-        return preg_match("/^[0-9\.]+$/", $str);
+        return is_float($str);
     }
 
     /**

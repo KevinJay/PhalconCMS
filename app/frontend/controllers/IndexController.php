@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * 首页
  * @category PhalconCMS
  * @copyright Copyright (c) 2016 PhalconCMS team (http://www.marser.cn)
  * @license GNU General Public License 2.0
@@ -9,28 +10,29 @@
 
 namespace Marser\App\Frontend\Controllers;
 
-class IndexController extends \Phalcon\Mvc\Controller{
+use \Marser\App\Frontend\Controllers\BaseController;
 
+class IndexController extends BaseController{
+
+    /**
+     * 首页跳转
+     */
     public function indexAction(){
-        $this->view->setVars(
-            array(
-                'title'         =>  'fronted_title',
-                'content'       =>  'fronted_content',
-                'description'   =>  'description',
-                'my_team'       =>  'zwz,www.marser.cn',
-                'team_desc'     =>  'fuck fuck fuck',
-                'classfy'       =>  array(
-                    'one'   =>  123,
-                    'two'   =>  456,
-                    'three' =>  789
-                ),
-            )
-        );
+        $this -> dispatcher -> forward(array(
+            'controller' => 'article',
+            'action' => 'list',
+        ));
     }
 
-    public function testAction(){
-        $this -> view -> title = 'index/test';
-        $this -> view -> description = 'fuck fuck fuck ';
-        $this -> view -> pick('index/test');
+    /**
+     * 404 not found
+     */
+    public function notfoundAction(){
+        $this -> view -> disableLevel(array(
+            /** 关闭分层渲染 */
+            \Phalcon\Mvc\View::LEVEL_MAIN_LAYOUT => false,
+        ));
+        $this -> view -> pick('index/404');
     }
+
 }

@@ -1,73 +1,27 @@
-<?php $this->partial("layouts/header") ?>
-<?php $this->partial("layouts/menu") ?>
-    <div class="main">
-        <div class="container typecho-dashboard">
-            <?php $this->partial("layouts/page-title") ?>
-            <div class="row typecho-page-main">
-                <div class="col-mb-12 welcome-board" role="main">
-                    <p>目前有 <em>%s</em> 篇文章, 并有 <em>%s</em> 条关于你的评论在 <em>%s</em> 个分类中
-                        <br>点击下面的链接快速开始:</p>
-                    <ul id="start-link" class="clearfix">
-                        <li><a href="#">撰写新文章</a></li>
-                        <li><a href="#">待审核的评论</a>
-                            <span class="balloon">1</span>
-                        </li>
-                        <li><a href="#">待审核评论</a>
-                            <span class="balloon">2</span>
-                        </li>
-                        <li><a href="#">垃圾评论</a>
-                            <span class="balloon">3</span>
-                        </li>
-                        <li><a href="#">更换外观</a></li>
-                        <li><a href="#">插件管理</a></li>
-                        <li><a href="#">系统设置</a></li>
-                        <li><a href="#">更新我的资料</a></li>
-                    </ul>
-                    <div class="update-check">
-                        <p class="message notice">
-                            您当前使用的版本是 &rarr;
-                            <strong><a href="#">官方最新版本是 ****</a></strong>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-mb-12 col-tb-4" role="complementary">
-                    <section class="latest-link">
-                        <h3>最近发布的文章</h3>
-                        <ul>
-                            <li>
-                                <span><?php echo date('n.j'); ?></span>
-                                <a href="#" class="title"><?php echo $title; ?></a>
-                            </li>
-                            <li><em>暂时没有文章</em></li>
-                        </ul>
-                    </section>
-                </div>
-
-                <div class="col-mb-12 col-tb-4" role="complementary">
-                    <section class="latest-link">
-                        <h3>最近得到的回复</h3>
-                        <ul>
-                            <li>
-                                <span><?php echo date('n.j'); ?></span>
-                                <a href="#" class="title"></a>:
-                            </li>
-                            <li>暂时没有回复</li>
-                        </ul>
-                    </section>
-                </div>
-
-                <div class="col-mb-12 col-tb-4" role="complementary">
-                    <section class="latest-link">
-                        <h3>官方最新日志</h3>
-                        <div id="typecho-message">
-                            <ul>
-                                <li>读取中...</li>
-                            </ul>
-                        </div>
-                    </section>
-                </div>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    {{ partial('public/header') }}
+</head>
+<body>
+    <div class="navbar navbar-default" id="navbar">
+        {{ partial('public/top_sidebar') }}
+    </div>
+    <div class="main-container" id="main-container">
+        <div class="main-container-inner">
+            <a class="menu-toggler" id="menu-toggler" href="javascript:void(0);">
+                <span class="menu-text"></span>
+            </a>
+            <div class="sidebar" id="sidebar">
+                {{ partial('public/left_sidebar') }}
+            </div>
+            <div class="main-content">
+                {{content()}}
             </div>
         </div>
     </div>
-<?php $this->partial("layouts/footer") ?>
+    {{ partial('public/alert') }}
+    {{ partial('public/footer') }}
+</body>
+</html>
+

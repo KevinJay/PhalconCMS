@@ -1,0 +1,179 @@
+<div id="content" role="main">
+    <div class="post type-post status-publish format-standard has-post-thumbnail hentry category-wordpress category-tutorial">
+        <div class="c-top2">
+            {% set modifyTime = explode('-', explode(' ', article['modify_time'])[0]) %}
+            <div class="datetime">{{modifyTime[0]}}<br>{{modifyTime[1]}}-{{modifyTime[2]}}</div>
+            <header class="tit">
+                <h1 class="entry-title">{{article['title']}}</h1>
+                <aside class="entry-meta iititle2">
+                    <span>
+                        <i class="fa fa-user icon-large" aria-hidden="true"></i>
+                        <a href="javascript:void(0);" title="Marser" rel="author">Marser</a>
+                    </span>
+                    <span>
+                        {% if article['categorys'] is not empty %}
+                            <i class="fa fa-folder-open icon-large" aria-hidden="true"></i>
+                            {% for ck,cv in article['categorys'] %}
+                                {% if ck==0 %}
+                                    <a href={{url("category/"~cv['cid']~".html")}} title="{{cv['category_name']}}" rel="category tag">
+                                        {{cv['category_name']}}
+                                    </a>
+                                {% else %}
+                                    ,<a href={{url("category/"~cv['cid']~".html")}} title="{{cv['category_name']}}" rel="category tag">
+                                        {{cv['category_name']}}
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </span>
+                    <span>
+                        <i class="fa fa-eye icon-large" aria-hidden="true"></i> 围观<i id="number">{{article['view_number']}}</i>次
+                    </span>
+                    <span>
+                        <i class="fa fa-comment-o icon-large" aria-hidden="true"></i>
+                        <a href="{{url('article/'~article['aid']~'.html#comments')}}">评论</a>
+                    </span>
+                    <span>
+                        <i class="fa fa-search-plus icon-large" aria-hidden="true"></i> 字体：
+                        <a href="javascript:;" onclick="checkFontSize(18)">大</a>
+                        <a href="javascript:;" onclick="checkFontSize(16)">中</a>
+                        <a href="javascript:;" onclick="checkFontSize(14)">小</a>
+                    </span>
+                    <span>
+                        <i class="fa fa-clock-o icon-large" aria-hidden="true"></i> 最后更新：{{article['modify_time']}}
+                    </span>
+                </aside>
+            </header>
+            <div class="cls"></div>
+        </div>
+        <article class="entry-content">
+            <div>
+                {{article['content']}}
+            </div>
+            <div class="article-reward">
+                <div class="article-reward-desc">「真诚赞赏，手留余香」</div>
+                <button class="reward-btn" id="reward-btn">￥ 赞&nbsp;赏</button>
+                <div class="article-reward-desc">您的支持将鼓励我继续创作 :)</div>
+            </div>
+            <div class="content-tags iititle2">
+                <aside class="cb_bq">
+                    {% if article['tags'] is not empty %}
+                        标签：
+                        {% for tk,tv in article['tags'] %}
+                            {% if tk==0 %}
+                                <span>
+                                    <a href={{url("tag/"~tv['tid']~".html")}} title="{{tv['tag_name']}}" rel="tag">
+                                        {{tv['tag_name']}}
+                                    </a>
+                                </span>
+                            {% else %}
+                                ,<span>
+                                    <a href={{url("tag/"~tv['tid']~".html")}} title="{{tv['tag_name']}}" rel="tag">
+                                        {{tv['tag_name']}}
+                                    </a>
+                                </span>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </aside>
+                <div class="cls"></div>
+            </div>
+            <div class="loc_link">
+                <ul>
+                    <li>本站文章除注明转载外，均为本站原创</li>
+                    <li>欢迎任何形式的转载，但请务必注明出处，尊重他人劳动</li>
+                    <li>转载请注明：文章转载自：Marser [<a href="{{siteUrl}}" title="Marser" rel="index">{{siteUrl}}</a>]</li>
+                    <li>本文标题：<a href={{url("article/"~article['aid']~".html")}} title="{{article['title']}}" rel="bookmark">{{article['title']}}</a></li>
+                    <li>本文固定链接：
+                        <a href={{url("article/"~article['aid']~".html")}} rel="bookmark" title="{{article['title']}}">
+                            {{url(siteUrl~"article/"~article['aid']~".html")}}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="cls"></div>
+        </article>
+    </div>
+    <div id="nav-below" class="navigation">
+        <div class="nav-previous">
+            {% if prevAritcle is not empty %}
+                <a href={{url("article/"~prevArticle['aid']~".html")}} title="{{prevArticle['title']}}" rel="next">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    {{prevArticle['title']}}
+                </a>
+            {% else %}
+                <a href="javascript:void(0);" rel="prev">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                    已经是第一篇啦
+                </a>
+            {% endif %}
+        </div>
+        <div class="nav-next">
+            {% if nextArticle is not empty %}
+                <a href={{url("article/"~nextArticle['aid']~".html")}} title="nextArticle['title']" rel="next">
+                    {{nextArticle['title']}}
+                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                </a>
+            {% else %}
+                <a href="javascript:void(0);" rel="next">
+                    已经是最后一篇啦
+                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                </a>
+            {% endif %}
+        </div>
+        <div class="cls"></div>
+    </div>
+    <div class="cls"></div>
+    {% if guessYouLike is not empty %}
+        <div class="relatedposts">
+            <h3 class="widget-title"><i class="icon-warning-sign"></i> 您可能还会对这些文章感兴趣！</h3>
+            <ul>
+                {% for gv in guessYouLike %}
+                    <li>
+                        <a href={{url("article/"~gv['aid']~".html")}} rel="bookmark" title="{{gv['title']}}">
+                            {{gv['title']}}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="cls"></div>
+        </div>
+    {% endif %}
+    <div name="comments" id="comments">
+        <div id="SOHUCS" sid="{{article['aid']}}" ></div>
+        <script type="text/javascript">
+            (function(){
+                var appid = 'cysLQu7QV';
+                var conf = 'prod_7abc8a87c90671ce8df80708f223653b';
+                var width = window.innerWidth || document.documentElement.clientWidth;
+                if (width < 960) {
+                    window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="http://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+                } else {
+                    var loadJs=function(d,a){
+                        var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;
+                        var b=document.createElement("script");
+                        b.setAttribute("type","text/javascript");
+                        b.setAttribute("charset","UTF-8");
+                        b.setAttribute("src",d);
+                        if(typeof a==="function"){
+                            if(window.attachEvent){
+                                b.onreadystatechange=function(){
+                                    var e=b.readyState;
+                                    if(e==="loaded"||e==="complete"){
+                                        b.onreadystatechange=null;a()
+                                    }
+                                }
+                            }else{
+                                b.onload=a
+                            }
+                        }
+                        c.appendChild(b)
+                    };
+                    loadJs("http://changyan.sohu.com/upload/changyan.js",function(){
+                        window.changyan.api.config({appid:appid,conf:conf})
+                    });
+                }
+            })(); </script>
+    </div>
+</div>
+<script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":false,"bdPic":"","bdStyle":"0","bdSize":"16"},"slide":{"type":"slide","bdImg":"2","bdPos":"right","bdTop":"100"},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>

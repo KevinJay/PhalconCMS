@@ -1,0 +1,94 @@
+<div class="breadcrumbs" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="icon-home home-icon"></i>
+            <a href="{{ url('dashboard/index') }}">控制面板</a>
+        </li>
+        <li>
+            <a href="{{ url('account/profile') }}">个人资料</a>
+        </li>
+    </ul>
+</div>
+<div class="page-content">
+    <div class="page-header">
+        <h1>
+            <a href="{{ url('categorys/index') }}">个人资料</a>
+            <small>
+                <i class="icon-double-angle-right"></i>
+                信息变更
+            </small>
+        </h1>
+    </div>
+    <div class="col-lg-12">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#profile" data-toggle="tab">个人资料</a>
+            </li>
+            <li>
+                <a href="#password" data-toggle="tab">修改密码</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="profile">
+                <form action="{{url('account/saveprofile')}}" method="post" class="form-horizontal" id="save-profile-form">
+                    <div class="form-group">
+                        <label for="username" class="col-sm-2 control-label">用户名</label>
+                        <div class="col-sm-5">
+                            <input type="text" value="{% if user is not empty %}{{user.username}}{% endif %}"
+                                   class="form-control" id="username" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label for="nickname" class="col-sm-2 control-label">昵称</label>
+                        <div class="col-sm-5">
+                            <input type="text" name="nickname" value="{% if user is not empty %}{{user.nickname}}{% endif %}"
+                                   class="form-control" id="nickname" autocomplete="off">
+                            <span class="form-tips">昵称用于前台界页展示，由中英文字符、数字、下划线和横杠组成。若此项为空，将默认使用用户名</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="user-email" class="col-sm-2 control-label">电子邮箱地址</label>
+                        <div class="col-sm-5">
+                            <input type="text" name="email" value="{% if user is not empty %}{{user.email}}{% endif %}"
+                                   class="form-control" id="user-email" placeholder="请填写电子邮箱地址" autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-5">
+                            <button type="submit" id="save-profile-btn" class="btn btn-info btn-sm">保存个人资料</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane fade" id="password">
+                <form action="{{url('account/savepwd')}}" method="post" class="form-horizontal" id="save-password-form">
+                    <div class="form-group ">
+                        <label for="old-password" class="col-sm-2 control-label">原始密码</label>
+                        <div class="col-sm-5">
+                            <input type="password" name="oldpwd" class="form-control" id="old-password" autocomplete="off" placeholder="请填写原始密码">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-password" class="col-sm-2 control-label">新密码</label>
+                        <div class="col-sm-5">
+                            <input type="password" name="newpwd" class="form-control" id="new-password" placeholder="请填写新密码" autocomplete="off" />
+                            <span class="form-tips">密码由6-20个字符组成</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password" class="col-sm-2 control-label">确认密码</label>
+                        <div class="col-sm-5">
+                            <input type="password" name="confirmpwd" class="form-control" id="confirm-password" placeholder="请再次填写新密码" autocomplete="off" />
+                            <span class="form-tips">与上面输入的新密码保持一致</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-5">
+                            <button type="submit" id="save-password-btn" class="btn btn-info btn-sm">修改密码</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -10,25 +10,42 @@
 
 namespace Marser\App\Backend\Controllers;
 
-use \Marser\App\Backend\Controllers\BaseController,
-    \Marser\App\Backend\Models\UsersModel;
+use \Marser\App\Backend\Controllers\BaseController;
 
 class AccountController extends BaseController{
+
+    public function initialize(){
+        parent::initialize();
+    }
 
     /**
      * 个人设置页
      */
     public function profileAction(){
-        $this -> view -> pick('settings/profile');
+        try {
+            $username = $this->session->get('user')['username'];
+            $user = $this->get_repository('Users')->detail($username);
+
+            $this -> view -> setVars(array(
+                'user' => $user,
+            ));
+            $this -> view -> pick('account/profile');
+        }catch(\Exception $e){
+            $this -> write_exception_log($e);
+
+            $this -> flashSession -> error($e -> getMessage());
+
+            return $this -> redirect('dashboard/index');
+        }
     }
 
     /**
      * 更新个人设置
      */
-    public function setprofileAction(){
+    public function saveprofileAction(){
         try{
-            if(!$this -> request -> isPost()){
-                throw new \Exception('请求错误');
+            if($this -> request -> isAjax() || !$this -> request -> isPost()){
+                throw new \Exception('非法请求');
             }
             $nickname = $this -> request -> getPost('nickname', 'trim');
             $email = $this -> request -> getPost('email', 'trim');
@@ -48,33 +65,29 @@ class AccountController extends BaseController{
                 $error = $error[0];
                 throw new \Exception($error['message'], $error['code']);
             }
-            /** 更新个人设置数据 */
+            /** 变更个人配置 */
             $data = array(
                 'nickname' => $nickname,
                 'email' => $email,
             );
-            $usersModel = new UsersModel();
-            $affectedRows = $usersModel -> update_user($data, $this -> session -> get('user')['username']);
-            if(!$affectedRows){
-                throw new \Exception('修改个人设置失败');
-            }
-            $this -> ajax_return('更新成功');
+            $this -> get_repository('Users') -> update($data, $this -> session -> get('user')['uid']);
+
+            $this -> flashSession -> success('更新成功');
         }catch(\Exception $e){
             $this -> write_exception_log($e);
 
-            $code = !empty($e -> getCode()) ? $e -> getCode() : 500;
-            $this -> ajax_return($e -> getMessage(), $code);
+            $this -> flashSession -> error($e -> getMessage());
         }
-        $this -> view -> disable();
+        return $this -> redirect('account/profile');
     }
 
     /**
      * 修改密码
      */
-    public function setpwdAction(){
+    public function savepwdAction(){
         try{
-            if(!$this -> request -> isPost()){
-                throw new \Exception('请求错误');
+            if($this -> request -> isAjax() || !$this -> request -> isPost()){
+                throw new \Exception('非法请求');
             }
             $oldpwd = $this -> request -> getPost('oldpwd', 'trim');
             $newpwd = $this -> request -> getPost('newpwd', 'trim');
@@ -97,33 +110,16 @@ class AccountController extends BaseController{
                 $error = $error[0];
                 throw new \Exception($error['message'], $error['code']);
             }
-            /** 校验旧密码是否正确 */
-            $usersModel = new UsersModel();
-            $user = $usersModel -> user_detail($this -> session -> get('user')['username']);
-            if(!$user){
-                throw new \Exception('密码错误');
-            }
-            $userinfo = $user -> toArray();
-            if(!$this -> security -> checkHash($oldpwd, $userinfo['password'])){
-                throw new \Exception('密码错误，请重新输入');
-            }
-            /** 密码更新 */
-            $password = $this -> security -> hash($newpwd);
-            $affectedRows = $usersModel -> update_user(array(
-                'password' => $password,
-            ), $this -> session -> get('user')['username']);
-            if(!$affectedRows){
-                throw new \Exception('修改密码失败，请重试');
-            }
-            $this -> ajax_return('修改密码成功');
+            /** 重置密码 */
+            $this -> get_repository('Users') -> update_password($oldpwd, $newpwd);
+
+            $this -> flashSession -> success('修改密码成功，下次登录时将启动新密码');
         }catch(\Exception $e){
             $this -> write_exception_log($e);
 
-            $code = !empty($e -> getCode()) ? $e -> getCode() : 500;
-            $this -> ajax_return($e -> getMessage(), $code);
+            $this -> flashSession -> error($e -> getMessage());
         }
-        $this -> view -> disable();
+        return $this -> redirect('account/profile');
     }
 
 }
-

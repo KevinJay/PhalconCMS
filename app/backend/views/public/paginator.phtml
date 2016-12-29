@@ -1,0 +1,20 @@
+<nav class="pagination-box">
+    <ul class="pagination">
+        <li {% if paginator.first == paginator.current %} class="disabled" {% endif %}>
+            <a href="{{get_page_url(paginator.before)}}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        {% for page in pageNum %}
+        <li {% if paginator.current == page %} class="active" {% endif %}>
+            <a href="{{get_page_url(page)}}">{{page}} <span class="sr-only"></span></a>
+        </li>
+        {% endfor %}
+        <li {% if paginator.last == paginator.current %} class="disabled" {% endif %}>
+            <a href="{{get_page_url(paginator.next)}}" aria-label="Next">
+                <span aria-hidden="true">»</span>
+            </a>
+        </li>
+        <div class="clearfix"></div>
+    </ul>
+</nav>

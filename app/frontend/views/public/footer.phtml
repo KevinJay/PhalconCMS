@@ -1,0 +1,74 @@
+<div id="colophon">
+    <div id="site-info" class="site-info">
+        <a href="javascript:void(0)" onClick="goRoll(0)" id="goTop">返回顶部</a> &nbsp;
+        <a href="http://www.miitbeian.gov.cn/" rel="external nofollow">粤ICP备13067234号</a>
+        <script>
+
+        </script>
+        ©2012-2016 <a href="{{siteUrl}}" rel="index" title="Marser">Marser</a> |
+        <a href="https://github.com/KevinJay/PhalconCMS" target="_blank" title="PhalconCMS">PhalconCMS</a>
+    </div>
+</div>
+<script type='text/javascript' src='{{ static_url("assets/js/wp-embed.min.js?_v=")~assetsVersion }}'></script>
+<div id="float">
+    <a id="float_gotop" class="floatbtn" href="javascript:void()" onClick="goRoll(0)" title="返回顶部"></a>
+    <a id="float_goend" class="floatbtn" href="javascript:void()" onClick="goend()" title="转到底部"></a>
+</div>
+<script>
+    if (typeof(SyntaxHighlighter) !== undefined) {
+        var preList = document.getElementsByTagName('pre');
+        for (var i = 0; i < preList.length; i ++) {
+            var children = preList[i].getElementsByTagName('code');
+            if (children.length > 0) {
+                var language = 'plain';
+                var code = children[0], className = code.className;
+                if (!!className) {
+                    var match = XRegExp.exec(className, XRegExp('^lang-(?<language>.*)$'));
+                    if (match && match.language) {
+                        language = match.language;
+                    }
+                }
+                preList[i].className = 'brush: ' + language;
+                preList[i].innerHTML = code.innerHTML;
+            }
+        }
+        SyntaxHighlighter.autoloader(
+            'applescript           {{ static_url("highlight/scripts/shBrushAppleScript.js") }}',
+            'ahk autohotkey        {{ static_url("highlight/scripts/shBrushAhk.js") }}',
+            'actionscript3 as3     {{ static_url("highlight/scripts/shBrushAS3.js") }}',
+            'bash shell            {{ static_url("highlight/scripts/shBrushBash.js") }}',
+            'bat cmd batch         {{ static_url("highlight/scripts/shBrushBat.js") }}',
+            'coldfusion cf         {{ static_url("highlight/scripts/shBrushColdFusion.js") }}',
+            'cpp c                 {{ static_url("highlight/scripts/shBrushCpp.js") }}',
+            'c# c-sharp csharp     {{ static_url("highlight/scripts/shBrushCSharp.js") }}',
+            'css                   {{ static_url("highlight/scripts/shBrushCss.js") }}',
+            'delphi pascal pas     {{ static_url("highlight/scripts/shBrushDelphi.js") }}',
+            'diff patch            {{ static_url("highlight/scripts/shBrushDiff.js") }}',
+            'erl erlang            {{ static_url("highlight/scripts/shBrushErlang.js") }}',
+            'groovy                {{ static_url("highlight/scripts/shBrushGroovy.js") }}',
+            'java                  {{ static_url("highlight/scripts/shBrushJava.js") }}',
+            'jfx javafx            {{ static_url("highlight/scripts/shBrushJavaFX.js") }}',
+            'js jscript javascript {{ static_url("highlight/scripts/shBrushJScript.js") }}',
+            'perl pl               {{ static_url("highlight/scripts/shBrushPerl.js") }}',
+            'php                   {{ static_url("highlight/scripts/shBrushPhp.js") }}',
+            'text plain            {{ static_url("highlight/scripts/shBrushPlain.js") }}',
+            'powershell ps         {{ static_url("highlight/scripts/shBrushPowerShell.js") }}',
+            'py python             {{ static_url("highlight/scripts/shBrushPython.js") }}',
+            'ruby rails ror rb     {{ static_url("highlight/scripts/shBrushRuby.js") }}',
+            'sass scss             {{ static_url("highlight/scripts/shBrushSass.js") }}',
+            'scala                 {{ static_url("highlight/scripts/shBrushScala.js") }}',
+            'sql                   {{ static_url("highlight/scripts/shBrushSql.js") }}',
+            'vb vbnet              {{ static_url("highlight/scripts/shBrushVb.js") }}',
+            'xml xhtml xslt html   {{ static_url("highlight/scripts/shBrushXml.js") }}'
+        );
+        SyntaxHighlighter.defaults['auto-links'] = true;
+        SyntaxHighlighter.defaults['collapse'] = false;
+        SyntaxHighlighter.defaults['gutter'] = true;
+        SyntaxHighlighter.defaults['smart-tabs'] = false;
+        SyntaxHighlighter.defaults['tab-size'] = 4;
+        SyntaxHighlighter.defaults['toolbar'] = false;
+        SyntaxHighlighter.all();
+    }
+
+
+</script>

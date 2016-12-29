@@ -9,75 +9,87 @@
  */
 
 namespace Marser\App\Backend\Controllers;
-use \Marser\App\Backend\Controllers\BaseController,
-    \Marser\App\Backend\Models\UsersModel;
 
-class PassportController extends BaseController{
+use \Marser\App\Core\PhalBaseController,
+    \Marser\App\Backend\Repositories\RepositoryFactory;
+
+class PassportController extends PhalBaseController{
+
+    public function initialize(){
+        parent::initialize();
+    }
 
     /**
      * 登录页
      */
     public function indexAction(){
-        $this -> view -> pick();
+        $this -> login_check();
+        $this -> view -> setVars(array(
+            'title' => $this -> systemConfig -> app -> app_name,
+            'assetsVersion' => strtotime(date('Y-m-d H', time()) . ":00:00"),
+        ));
+        $this -> view -> setMainView('passport/login');
     }
 
     /**
      * 登录处理
      * @throws \Exception
-     * @author Marser
      */
     public function loginAction(){
+        $this -> login_check();
         try {
-            if(!$this -> request -> isPost()){
-                throw new \Exception('请求错误');
+            if($this -> request -> isAjax() || !$this -> request -> isPost()){
+                throw new \Exception('非法请求');
             }
             $username = $this -> request -> getPost('username', 'trim');
             $password = $this -> request -> getPost('password', 'trim');
 
             /** 添加验证规则 */
             $this -> validator -> add_rule('username', 'required', '请输入用户名')
-                -> add_rule('username', 'alpha_dash', '用户名由4-20个英文字符、数字、中下划线组成')
-                -> add_rule('username', 'min_length', '用户名由4-20个英文字符、数字、中下划线组成', 4)
-                -> add_rule('username', 'max_length', '用户名由4-20个英文字符、数字、中下划线组成', 20);
+                -> add_rule('username', 'alpha_dash', '用户名由4-20个英文字符、数字、下划线和横杠组成')
+                -> add_rule('username', 'min_length', '用户名由4-20个英文字符、数字、下划线和横杠组成', 4)
+                -> add_rule('username', 'max_length', '用户名由4-20个英文字符、数字、下划线和横杠组成', 20);
             $this -> validator -> add_rule('password', 'required', '请输入密码')
-                -> add_rule('password', 'min_length', '密码由6-20个字符组成', 6)
-                -> add_rule('password', 'max_length', '密码由6-20个字符组成', 20);
+                -> add_rule('password', 'min_length', '密码由6-32个字符组成', 6)
+                -> add_rule('password', 'max_length', '密码由6-32个字符组成', 32);
             /** 截获验证异常 */
             if ($error = $this -> validator -> run(array('username'=>$username, 'password'=>$password))) {
                 $error = array_values($error);
                 $error = $error[0];
                 throw new \Exception($error['message'], $error['code']);
             }
-            /** 获取用户信息 */
-            $usersModel = new UsersModel();
-            $user = $usersModel -> user_detail($username);
-            if(!$user){
-                throw new \Exception('用户名或密码错误');
-            }
-            $userinfo = $user -> toArray();
-            /** 校验密码 */
-            if(!$this -> security -> checkHash($password, $userinfo['password'])){
-                throw new \Exception('密码错误，请重新输入');
-            }
-            /** 设置session */
-            unset($userinfo['password']);
-            $this -> session -> set('user', $userinfo);
+            /** 登录处理 */
+            RepositoryFactory::get_repository('Users') -> login($username, $password);
 
-            $this -> ajax_return('success', 1);
+            $url = $this -> url -> get("{$this -> _module_pathinfo}/dashboard/index");
+            return $this -> response -> redirect($url);
         }catch(\Exception $e){
             $this -> write_exception_log($e);
 
-            $code = !empty($e -> getCode()) ? $e -> getCode() : 500;
-            $this -> ajax_return($e -> getMessage(), $code);
+            $this -> flashSession -> error($e -> getMessage());
+
+            return $this -> response -> redirect('passport/index');
         }
-        $this -> view -> disable();
     }
 
     /**
      * 注销登录
-     * @author Marser
      */
     public function logoutAction(){
-        $this -> session -> destroy();
+        if($this -> session -> destroy()){
+            $url = $this -> url -> get("{$this -> _module_pathinfo}/passport/index");
+            return $this -> response -> redirect($url);
+        }
+    }
+
+    /**
+     * 登录检测处理
+     * @return bool
+     */
+    protected function login_check(){
+        if(RepositoryFactory::get_repository('Users') -> login_check()){
+            return $this -> response -> redirect("passport/index");
+        }
+        return false;
     }
 }

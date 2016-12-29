@@ -1,0 +1,35 @@
+<div id="reward-qrcode-box" class="reward-qrcode-box">
+    <div class="reward-qrcode">
+        <img src='{{ static_url("assets/image/weixin-pay.png") }}' />
+    </div>
+    <div class="reward-qrcode-desc">微信扫一扫</div>
+</div>
+<div id="weixin-user-box" style="display: none;">
+    <img src='{{ static_url("assets/image/weixin.png") }}' />
+</div>
+<script type='text/javascript' src='{{ static_url("layer/layer.js?_v=")~assetsVersion }}'></script>
+<script type="text/javascript">
+    jQuery(function($) {
+        $('#reward-btn').on('click', function () {
+            layer.open({
+                type: 1,
+                skin: 'layui-layer-rim',
+                title: false,
+                area:['auto', 'auto'],
+                shadeClose: true,
+                content: $('#reward-qrcode-box'),
+            });
+        });
+
+        $('#add-weixin, #contact-me').on('click', function(){
+            layer.open({
+                type: 1,
+                title: false,
+                skin: 'layui-layer-rim',
+                area:['auto', 'auto'],
+                shadeClose: true,
+                content: $('#weixin-user-box'),
+            });
+        });
+    });
+</script>

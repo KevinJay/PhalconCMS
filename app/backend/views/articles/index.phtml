@@ -1,0 +1,157 @@
+<div class="breadcrumbs" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="icon-home home-icon"></i>
+            <a href="{{ url('dashboard/index') }}">控制面板</a>
+        </li>
+        <li>
+            <a href="{{ url('articles/index') }}">文章管理</a>
+        </li>
+    </ul>
+</div>
+<div class="page-content">
+    <div class="page-header">
+        <h1>
+            <a href="{{ url('articles/index') }}">文章管理</a>
+            <small>
+                <i class="icon-double-angle-right"></i>
+                文章列表
+            </small>
+        </h1>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <div class="col-sm-2">
+                        <select name="cid" class="form-control">
+                            <option>请选择分类</option>
+                            {% for value in categoryList %}
+                                {% if cid is not empty and cid == value['cid'] %}
+                                    <option value="{{value['cid']}}" selected="selected">
+                                {% else %}
+                                    <option value="{{value['cid']}}">
+                                {% endif %}
+                                {% if value['parent_cid'] > 0 %}
+                                    ├─{{ str_repeat('──', substr_count(value['path'], '/')) }}
+                                    {{value['category_name']}}
+                                {% else %}
+                                    ├─{{value['category_name']}}
+                                {% endif %}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="input-group">
+                            <input type="text" name="keyword" class="form-control" placeholder="请输入文章标题" {% if keyword is not empty %}value="{{keyword}}"{% endif %} />
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-info btn-sm">
+                                    搜索
+                                    <i class="icon-search icon-on-right bigger-110"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="btn-panel">
+                            <a href="{{ url('articles/write') }}" class="btn btn-success btn-sm" role="button">新增文章</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="table-responsive">
+                <table class="table tree-grid table-striped table-bordered table-condensed table-hover" id="test-table">
+                    <thead>
+                        <tr>
+                            <th>文章标题</th>
+                            <th>分类</th>
+                            <th>发布时间</th>
+                            <th>阅读量</th>
+                            <th>作者</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    {% if articles is not empty %}
+                        <tbody>
+                            {% for article in articles %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ url('articles/write?aid='~article['aid']) }}" title="编辑文章">
+                                            {{article['title']}}
+                                        </a>
+                                        {% if article['status'] == 2 %}
+                                            <span class="label label-sm arrowed arrowed-right">
+                                                <s>草稿</s>
+                                            </span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% for ck, cv in article['categorys'] %}
+                                            {% if ck == 0 %}
+                                                <a href="{{ url('articles/index?cid='~cv['cid']) }}" title="查看分类下的文章">
+                                                    {{cv['category_name']}}
+                                                </a>
+                                            {% else %}
+                                                ,<a href="{{ url('articles/index?cid='~cv['cid']) }}" title="查看分类下的文章">
+                                                    {{cv['category_name']}}
+                                                </a>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </td>
+                                    <td>{{article['modify_time']}}</td>
+                                    <td>{{article['view_number']}}次</td>
+                                    <td>{{userinfo['realname']}}</td>
+                                    <td>
+                                        <a class="btn btn-xs btn-info" href="{{ url('articles/write?aid='~article['aid']) }}" title="编辑文章">
+                                            <i class="icon-edit bigger-120"></i>
+                                        </a>
+                                        {% if article['is_top'] == 1 %}
+                                            <a class="btn btn-xs btn-success" href="{{ url('articles/top?type=0&aid='~article['aid']) }}" title="取消置顶">
+                                                <i class="icon-arrow-down"></i>
+                                            </a>
+                                        {% else %}
+                                            <a class="btn btn-xs btn-success" href="{{ url('articles/top?type=1&aid='~article['aid']) }}" title="设为置顶">
+                                                <i class="icon-arrow-up"></i>
+                                            </a>
+                                        {% endif %}
+                                        {% if article['is_recommend'] == 1 %}
+                                            <a class="btn btn-xs btn-primary" href="{{ url('articles/recommend?type=0&aid='~article['aid']) }}" title="取消推荐">
+                                                <i class="icon-heart"></i>
+                                            </a>
+                                        {% else %}
+                                            <a class="btn btn-xs btn-primary" href="{{ url('articles/recommend?type=1&aid='~article['aid']) }}" title="设为推荐">
+                                                <i class="icon-heart-empty"></i>
+                                            </a>
+                                        {% endif %}
+                                        <button class="btn btn-xs btn-danger delete-articles" data-url="{{ url('articles/delete?aid='~article['aid']) }}" title="删除文章">
+                                            <i class="icon-trash bigger-120"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    {% else %}
+                        <tbody>
+                        <tr>
+                            <td colspan="5">暂无数据</td>
+                        </tr>
+                        </tbody>
+                    {% endif %}
+                </table>
+                {% if articles is not empty %}
+                    {{ partial('public/paginator') }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('.delete-articles').on('click', function(){
+        var dataUrl = $.trim($(this).attr('data-url'));
+        if(!window.confirm('确定要删除选中的文章吗？此操作不可挽回')){
+            return false;
+        }
+        window.location.href = dataUrl;
+    });
+</script>

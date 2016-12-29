@@ -1,0 +1,105 @@
+@charset "UTF-8";
+.login-box-wrap{
+    display: table;
+    margin:0 auto;
+    height:100%;
+    width:22%;
+    margin-top:10%;
+
+}
+.login-box{
+    display:table-cell;
+    vertical-align: middle;
+}
+.login-box h3{
+    font-size:20px;
+    font-weight: normal;
+    text-align: center;
+}
+.login-logo{
+    color:#8D9CAA;
+    font-weight: bold;
+    margin-bottom:25px;
+}
+.login-box .login-input{
+    margin-top:20px;
+}
+.login-box .login-input input{
+    color:#333;
+    height:45px;
+}
+.login-box .login-tips{
+    color:red;
+    margin-top:15px;
+}
+.login-box button[type="button"]{
+    width:100%;
+    margin-top:15px;
+    height:45px;
+}
+.alert-tips{
+    position:fixed;
+    top:0px;
+    width:100%;
+    z-index:1001;
+    text-align: center;
+    display:none;
+}
+.pagination-box{
+    text-align:right;
+}
+.pagination-box ul.pagination{
+    margin:0px 0px;
+}
+.btn-panel{
+    margin-bottom:15px;
+}
+.btn-panel a{
+    margin-right:15px;
+}
+.form-control{
+    display:inline-block;
+}
+.form-horizontal .form-tips{
+    font-size:13px;
+    color:#999;
+}
+.form-horizontal .form-group{
+    margin-bottom:20px;
+}
+.treegrid-indent {
+    width:16px;
+    height: 16px;
+    display: inline-block;
+    position: relative;
+}
+.treegrid-expander {
+    width:16px;
+    height: 16px;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+.tags-box ul{
+    list-style-type:none;
+}
+.tags-box ul li{
+    list-style-type:none;
+    display:inline-block;
+    color:#FFFFFF;
+    margin:0px 15px 15px 0px;
+}
+.tags-box ul li a{
+    color:#FFFFFF;
+    margin-left:5px;
+    cursor:pointer;
+}
+.archive-category-list{
+    max-height: 240px;
+    border:1px solid #d5d5d5;
+    background: #FFF;
+    overflow: auto;
+}
+.archive-category-list ul{
+    list-style-type: none;
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8" />
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="{{ static_url('bootstrap/css/bootstrap.min.css?_v=')~assetsVersion }}" rel="stylesheet" />
+    <link href="{{ static_url('assets/css/style.css?_v=')~assetsVersion }}" rel="stylesheet" />
+</head>
+<body>
+    <style type="text/css">
+        body{
+            background:#f1f1f1;
+        }
+    </style>
+    <div class="login-box-wrap">
+        <div class="login-box">
+            <h3 class="login-logo">PhalconCMS管理平台</h3>
+            <form action="{{ url('passport/login') }}" method="post" name="login-form" id="login-form">
+                <div class="login-input">
+                    <input type="text" name="username" id="username" class="form-control" placeholder="用户名"
+                           aria-describedby="basic-addon1" maxlength="20" autocomplete="off">
+                </div>
+                <div class="login-input">
+                    <input type="password" name="password" id="password" class="form-control" placeholder="密码"
+                           aria-describedby="sizing-addon1" maxlength="32" autocomplete="off">
+                </div>
+                <button type="button" class="btn btn-success" id="login-btn">登录</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ static_url('ace/js/jquery-2.0.3.min.js?_v=')~assetsVersion }}"></script>
+    <script src="{{ static_url('bootstrap/js/bootstrap.min.js?_v=')~assetsVersion }}"></script>
+    <script src="{{ static_url('assets/js/public.js?_v=')~assetsVersion }}"></script>
+
+    {{ partial('public/alert') }}
+</body>
+</html>

@@ -10,7 +10,7 @@
 
 namespace Marser\App\Core;
 
-class PhalBaseModel extends \Phalcon\Mvc\Model{
+class PhalBaseModel extends \Phalcon\Mvc\Model implements \Phalcon\Mvc\ModelInterface{
 
     /**
      * 数据库连接对象
@@ -20,6 +20,11 @@ class PhalBaseModel extends \Phalcon\Mvc\Model{
 
     public function initialize(){
         $this -> db = $this -> getDI() -> get('db');
+
+        /** 不对空字段进行validation校验 */
+        self::setup(array(
+            'notNullValidations' => false
+        ));
     }
 
     /**
@@ -27,9 +32,22 @@ class PhalBaseModel extends \Phalcon\Mvc\Model{
      * @param string $tableName
      * @author Marser
      */
-    public function set_table_source($tableName){
-        $prefix = $this -> getDI() -> get('systemConfig') -> get('database', 'prefix');
+    protected function set_table_source($tableName){
+        $prefix = $this -> getDI() -> get('systemConfig') -> database -> prefix;
         $this -> setSource($prefix.$tableName);
     }
 
+    /**
+     * 封装phalcon model的update方法，实现仅更新数据变更字段，而非所有字段更新
+     * @param array|null $data
+     * @param null $whiteList
+     * @return bool
+     */
+    public function iupdate(array $data=null, $whiteList=null){
+        if(count($data) > 0){
+            $attributes = $this -> getModelsMetaData() -> getAttributes($this);
+            $this -> skipAttributesOnUpdate(array_diff($attributes, array_keys($data)));
+        }
+        return parent::update($data, $whiteList);
+    }
 }

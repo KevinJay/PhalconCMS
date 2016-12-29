@@ -1,0 +1,89 @@
+<div class="breadcrumbs" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="icon-home home-icon"></i>
+            <a href="{{ url('dashboard/index') }}">控制面板</a>
+        </li>
+        <li>
+            <a href="{{ url('tags/index') }}">标签管理</a>
+        </li>
+    </ul>
+</div>
+<div class="page-content">
+    <div class="page-header">
+        <h1>
+            <a href="{{ url('tags/index') }}">标签管理</a>
+            <small>
+                <i class="icon-double-angle-right"></i>
+                查看
+            </small>
+        </h1>
+    </div>
+    <div class="col-lg-7">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">标签列表</h3>
+            </div>
+            <div class="panel-body">
+                <div class="tags-box">
+                    {% if tagsList is not empty %}
+                        <ul>
+                            {% set tagclound=['label-success', 'label-warning', 'label-danger', 'label-info', 'label-inverse', 'label-pink', 'label-yellow', 'label-purple'] %}
+                            {% for tagk,tag in tagsList %}
+                                <li>
+                                    <span class="label {{tagclound[array_rand(tagclound)]}} arrowed-in-right arrowed">
+                                        <a href="{{ url('tags/index?tid='~tag['tid']) }}" title="编辑标签">
+                                            {{tag['tag_name']}}
+                                        </a>
+                                        <a href="javascript:void(0);" class="delete-tag" data-url="{{ url('tags/delete?tid='~tag['tid']) }}" title="删除标签">
+                                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                        </a>
+                                    </span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        暂无标签数据
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">保存标签</h3>
+            </div>
+            <div class="panel-body" >
+                <form action="{{url('tags/save')}}" method="post" class="form-horizontal" id="tag-form">
+                    <div class="form-group">
+                        <label for="tag-name" class="col-sm-2 control-label">标签名称</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="name" value="{% if taginfo is not empty %}{{taginfo['tag_name']}}{% endif %}"
+                                   class="form-control" id="tag-name" placeholder="请填写标签名称">
+                            <span class="form-tips">标签名称由中英文字符、数字、下划线和横杠组成</span>
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label for="tag-slug" class="col-sm-2 control-label">缩略名</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="slug" value="{% if taginfo is not empty %}{{taginfo['slug']}}{% endif %}"
+                                   class="form-control" id="taginfo-slug" placeholder="请填写缩略名">
+                            <span class="form-tips">标签缩略名用于创建友好的链接形式，建议使用英文字母、数据、下划线和横杠。默认为空</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-5">
+                            {% if taginfo['tid'] is not empty %}
+                                <input type="hidden" name="tid" value="{{taginfo['tid']}}" />
+                                <button type="submit" id="tag-btn" class="btn btn-info btn-sm">保存标签</button>
+                            {% else %}
+                                <button type="submit" id="tag-btn" class="btn btn-info btn-sm">新增标签</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

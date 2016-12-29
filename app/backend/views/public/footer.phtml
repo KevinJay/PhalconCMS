@@ -1,0 +1,10 @@
+<script src="{{ static_url('ace/js/ace.min.js?_v=')~assetsVersion }}"></script>
+<script src="{{ static_url('treegrid/js/jquery.treegrid.js?_v=')~assetsVersion }}"></script>
+<script src="{{ static_url('assets/js/public.js?_v=')~assetsVersion }}"></script>
+
+<script>
+    $('.tree-grid').treegrid({
+        expanderExpandedClass: 'glyphicon glyphicon-minus',
+        expanderCollapsedClass: 'glyphicon glyphicon-plus',
+    });
+</script>

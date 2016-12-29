@@ -1,0 +1,164 @@
+<div class="breadcrumbs" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="icon-home home-icon"></i>
+            <a href="{{ url('dashboard/index') }}">控制面板</a>
+        </li>
+        <li>
+            <a href="{{ url('articles/index') }}">文章管理</a>
+        </li>
+    </ul>
+</div>
+<div class="page-content">
+    <div class="page-header">
+        <h1>
+            <a href="{{ url('articles/index') }}">文章管理</a>
+            <small>
+                <i class="icon-double-angle-right"></i>
+                {% if article is not empty %}
+                    编辑文章
+                {% else %}
+                    新增文章
+                {% endif %}
+            </small>
+        </h1>
+    </div>
+    <form action="{{url('articles/publish')}}" method="post" class="form-horizontal" id="save-archive-form">
+        <div class="col-lg-8">
+            <div class="form-group">
+                <label for="archive-title" class="col-sm-2 control-label">文章标题</label>
+                <div class="col-sm-9">
+                    <input type="text" name="title" class="form-control" id="title" {% if article is not empty %}value="{{article['title']}}"{% endif %}>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="archive-content" class="col-sm-2 control-label">内容</label>
+                <div class="col-sm-9">
+                    <textarea id="article-markdown" name="markdown">{% if article is not empty %}{{article['markdown']}}{% endif %}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-5">
+                    {% if article is not empty %}
+                        <input type="hidden" name="aid" value="{{article['aid']}}" />
+                    {% endif %}
+                    <input type="hidden" name="status" id="status" />
+                    <input type="hidden" name="content" id="article-content" />
+                    <button type="button" class="btn btn-info btn-sm" data-status="1" id="save-articles-btn">发布文章</button>
+                    <button type="button" class="btn btn-sm" data-status="2" id="save-articles-draft-btn">保存草稿</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label for="archive-time" class="col-sm-2 control-label">发布时间</label>
+                <div class="col-sm-9">
+                    <input type="text" name="time" id="archive-time" class="form-control Wdate" {% if article is not empty %}value="{{article['modify_time']}}"{% endif %} />
+                </div>
+            </div>
+            <div class="form-group ">
+                <label for="archive-category" class="col-sm-2 control-label">所属分类</label>
+                <div class="col-sm-9">
+                    <div class="archive-category-list">
+                        <ul>
+                            {% for value in categoryList %}
+                                <li>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox" name="category[]" value="{{value['cid']}}"
+                                                {% if article['categorys'] is not empty %}
+                                                   {% for cv in article['categorys'] %}
+                                                        {% if cv['cid'] == value['cid'] %}
+                                                            checked="checked"
+                                                            {% break %}
+                                                        {% endif %}
+                                                   {% endfor %}
+                                                {% endif %}
+                                            />{{value['category_name']}}
+                                        </label>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="archive-tags" class="col-sm-2 control-label">标签</label>
+                <div class="col-sm-9">
+                    <input type="text" name="tags" class="form-control" id="archive-tags" placeholder="请填写标签" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<link rel="stylesheet" href="{{ static_url('simplemde/css/simplemde.min.css?_v=')~assetsVersion }}" />
+<link rel="stylesheet" href="{{ static_url('simplemde/css/font-awesome.min.css?_v=')~assetsVersion }}" />
+<script src="{{ static_url('simplemde/js/simplemde.min.js?_v=')~assetsVersion }}"></script>
+<link rel="stylesheet" href="{{ static_url('tagsinput/jquery.tagsinput.css?_v=')~assetsVersion }}" />
+<script src="{{ static_url('tagsinput/jquery.tagsinput.js?_v=')~assetsVersion }}"></script>
+<script src="{{ static_url('my97datepicker/WdatePicker.js?_v=')~assetsVersion }}"></script>
+<script>
+    var simplemde = new SimpleMDE({
+        element:document.getElementById('article-markdown'),
+        autoDownloadFontAwesome:false,
+        styleSelectedText:false,
+        spellChecker:false
+    });
+    $('#archive-time').on('click', function(){
+        WdatePicker({
+            dateFmt:'yyyy-MM-dd HH:mm'
+        });
+    });
+    $('#archive-tags').tagsInput({
+        'defaultText':'',
+        'width':'100%',
+        'height':'auto'
+    });
+    $('#save-articles-btn, #save-articles-draft-btn').on('click', function(){
+        var title = $.trim($('#title').val());
+        if(typeof title == 'undefined' || title == false){
+            tips_message('请填写文章标题');
+            return false;
+        }
+
+        var markdown = simplemde.value();
+        if(typeof markdown == 'undefined' || markdown == false){
+            tips_message('请填写文章内容');
+            return false;
+        }
+        var content = simplemde.options.previewRender(markdown);
+        if(typeof content == 'undefined' || content == false){
+            tips_message('未知异常，请刷新页面后重试');
+            return false;
+        }
+        $('#article-content').val(content);
+
+        var category = new Array();
+        $('input[name="category[]"]').each(function(){
+            if($(this).is(':checked')){
+                category.push($(this).val());
+            }
+        });
+        if(category.length == 0){
+            tips_message('请选择文章分类');
+            return false;
+        }
+
+        var tags = $.trim($('#archive-tags').val());
+        if(typeof tags == 'undefined' || tags == false){
+            tips_message('请填写标签');
+            return false;
+        }
+
+        var status = $(this).attr('data-status');
+        $('#status').val(status);
+
+        $('#save-archive-form').submit();
+    });
+    {% if article['tags'] is not empty %}
+        {% for tv in article['tags'] %}
+            $("#archive-tags").addTag("{{tv['tag_name']}}");
+        {% endfor %}
+    {% endif %}
+</script>

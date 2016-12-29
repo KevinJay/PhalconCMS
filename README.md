@@ -1,14 +1,15 @@
 PhalconCMS
 =================
 ### 介绍
-基于Phalcon的博客CMS（还在开发中，敬请期待......）
+基于Phalcon的博客CMS
 
+### 推荐环境
+	* PHP 5.6+
+	* phalcon 2.0+
 
-#### 环境匹配设置
-* 在不同环境（开发、测试、线上）上运行此项目时，请修改index.php中的``` "$runtime" ```值：
-``` dev:开发   test:测试    pro:线上 ```程序会根据此变量，自动匹配环境所需的配置（api,system）文件
-
-#### nginx配置
+### 安装
+	* 在数据库中导入phalconCMS.sql文件
+	* 添加nginx配置，demo:
 ```bash
 	server {
 	    listen 80;
@@ -44,6 +45,14 @@ PhalconCMS
 	    error_log  /path/logs/Marser/error.log;
 	}
 ```
+	* 
+
+#### 环境匹配设置
+* 在不同环境（开发、测试、线上）上运行此项目时，请修改index.php中的``` "$runtime" ```值：
+``` dev:开发   test:测试    pro:线上 ```程序会根据此变量，自动匹配环境所需的配置（api,system）文件
+
+#### nginx配置
+
 
 #### 社区
 [Phalcon中文社区][1] (http://www.iphalcon.cn)

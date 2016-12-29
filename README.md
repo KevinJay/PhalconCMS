@@ -41,8 +41,8 @@ PhalconCMS
 	        fastcgi_param PATH_INFO $path_info;
 	    }
 	
-	    access_log  /path/logs/Marser/access.log  access;
-	    error_log  /path/logs/Marser/error.log;
+	    access_log  /path/logs/PhalconCMS/access.log  access;
+	    error_log  /path/logs/PhalconCMS/error.log;
 	}
 ```
 

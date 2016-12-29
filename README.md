@@ -14,7 +14,7 @@ PhalconCMS
 	server {
 	    listen 80;
 	    server_name test.com;
-	    root /path/Marser/public;
+	    root /path/PhalconCMS/public;
 	    index index.php index.html index.htm;
 	
 	    location / {

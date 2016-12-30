@@ -37,6 +37,15 @@
                     <span class="form-tips">此数目用于指定前台页面中“推荐阅读”栏显示的文章列表数目</span>
                 </div>
             </div>
+            <div class="form-group ">
+                <label for="relate-article-number" class="col-sm-2 control-label">关联文章数目</label>
+                <div class="col-sm-8">
+                    <input type="text" name="relateNum" value="{% if options is not empty %}{{options['relate_article_number']['op_value']}}{% endif %}"
+                           class="form-control" id="relate-article-number" placeholder="请填写关联显示的文章列表数目">
+                    <span class="form-tips">此数目用于文章详情页的“你可能感兴趣”的文章列表数目</span>
+                </div>
+            </div>
+
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-5">
                     <button type="submit" id="read-options-btn" class="btn btn-info btn-sm">保存设置</button>

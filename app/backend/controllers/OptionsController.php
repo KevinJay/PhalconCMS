@@ -115,13 +115,16 @@ class OptionsController extends BaseController{
             }
             $pageNum = intval($this -> request -> getPost('pageNum', 'trim'));
             $recommendNum = intval($this -> request -> getPost('recommendNum', 'trim'));
+            $relateNum = intval($this -> request -> getPost('relateNum', 'trim'));
             /** 添加验证规则 */
             $this -> validator -> add_rule('pageNum', 'required', '请填写每页文章数量');
             $this -> validator -> add_rule('recommendNum', 'required', '请填写推荐阅读显示的文章列表数目');
+            $this -> validator -> add_rule('relateNum', 'required', '请填写关联的文章列表数目');
             /** 截获验证异常 */
             if ($error = $this -> validator -> run(array(
                 'pageNum' => $pageNum,
-                'recommendNum' => $recommendNum
+                'recommendNum' => $recommendNum,
+                'relateNum' => $relateNum,
             ))) {
                 $error = array_values($error);
                 $error = $error[0];
@@ -131,6 +134,7 @@ class OptionsController extends BaseController{
             $data = array(
                 'page_article_number' => $pageNum,
                 'recommend_article_number' => $recommendNum,
+                'relate_article_number' => $relateNum,
             );
             $this -> get_repository('Options') -> update($data);
 

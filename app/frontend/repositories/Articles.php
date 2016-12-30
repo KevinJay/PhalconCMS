@@ -132,4 +132,14 @@ class Articles extends  BaseRepository{
         return $articles;
     }
 
+    /**
+     * 更新文章浏览量
+     * @param $aid
+     * @return int
+     */
+    public function update_views($aid){
+        $affectedRows = $this -> get_model('ArticlesModel') -> update_views($aid);
+        $affectedRows = intval($affectedRows);
+        return $affectedRows;
+    }
 }

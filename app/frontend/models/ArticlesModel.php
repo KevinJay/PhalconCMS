@@ -213,4 +213,27 @@ class ArticlesModel extends BaseModel{
         ));
         return $count;
     }
+
+    /**
+     * 更新浏览数
+     * @param $aid
+     * @return int
+     * @throws \Exception
+     */
+    public function update_views($aid){
+        $aid = intval($aid);
+        if($aid <= 0){
+            throw new \Exception('参数错误');
+        }
+
+        $phql = "UPDATE " . __CLASS__ . " SET view_number = view_number + 1 WHERE aid = :aid:";
+        $result = $this -> getModelsManager() -> executeQuery($phql, array(
+            'aid' => $aid
+        ));
+        if(!$result){
+            throw new \Exception('更新失败');
+        }
+        $affectedRows = $this -> db -> affectedRows();
+        return $affectedRows;
+    }
 }

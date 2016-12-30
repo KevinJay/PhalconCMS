@@ -217,6 +217,9 @@ class ArticleController extends  BaseController{
                 'tag_name' => $tv->tag_name,
             );
         }
+        /** 更新浏览次数 */
+        $this -> get_repository('Articles') -> update_views($aid);
+
         /** 设置猜你喜欢文章数据 */
         $cids = array_column($article['categorys'], 'cid');
         $tids = array_column($article['tags'], 'tid');

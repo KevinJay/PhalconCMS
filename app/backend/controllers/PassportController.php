@@ -61,8 +61,7 @@ class PassportController extends PhalBaseController{
             /** 登录处理 */
             RepositoryFactory::get_repository('Users') -> login($username, $password);
 
-            $url = $this -> url -> get("{$this -> _module_pathinfo}/dashboard/index");
-            return $this -> response -> redirect($url);
+            return $this -> response -> redirect('dashboard/index');
         }catch(\Exception $e){
             $this -> write_exception_log($e);
 
@@ -77,8 +76,7 @@ class PassportController extends PhalBaseController{
      */
     public function logoutAction(){
         if($this -> session -> destroy()){
-            $url = $this -> url -> get("{$this -> _module_pathinfo}/passport/index");
-            return $this -> response -> redirect($url);
+            return $this -> response -> redirect('passport/index');
         }
     }
 

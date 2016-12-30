@@ -22,7 +22,7 @@ return array(
         //前台配置
         'frontend' => array(
             //模块在URL中的pathinfo路径名
-            'module_pathinfo' => '',
+            'module_pathinfo' => '/',
 
             //控制器路径
             'controllers' => ROOT_PATH . '/app/frontend/controllers/',
@@ -40,7 +40,7 @@ return array(
         //后台配置
         'backend' => array(
             //模块在URL中的pathinfo路径名
-            'module_pathinfo' => 'admin',
+            'module_pathinfo' => '/admin/',
 
             //控制器路径
             'controllers' => ROOT_PATH . '/app/backend/controllers/',

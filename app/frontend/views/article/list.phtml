@@ -27,8 +27,8 @@
     {% for article in articles %}
         <article class="post_box">
             <div class="c-top" id="post-4503">
-                {% set modifyTime = explode('-', explode(' ', article['modify_time'])[0]) %}
-                <div class="datetime">{{modifyTime[0]}}<br/>{{modifyTime[1]}}-{{modifyTime[2]}}</div>
+                {% set createTime = explode('-', explode(' ', article['create_time'])[0]) %}
+                <div class="datetime">{{createTime[0]}}<br/>{{createTime[1]}}-{{createTime[2]}}</div>
                 <header class="tit">
                     <h2 class="h1">
                         <a href={{url("article/"~article['aid']~".html")}} title="{{article['title']}}" rel="bookmark">

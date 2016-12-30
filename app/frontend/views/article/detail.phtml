@@ -1,8 +1,8 @@
 <div id="content" role="main">
     <div class="post type-post status-publish format-standard has-post-thumbnail hentry category-wordpress category-tutorial">
         <div class="c-top2">
-            {% set modifyTime = explode('-', explode(' ', article['modify_time'])[0]) %}
-            <div class="datetime">{{modifyTime[0]}}<br>{{modifyTime[1]}}-{{modifyTime[2]}}</div>
+            {% set createTime = explode('-', explode(' ', article['create_time'])[0]) %}
+            <div class="datetime">{{createTime[0]}}<br>{{createTime[1]}}-{{createTime[2]}}</div>
             <header class="tit">
                 <h1 class="entry-title">{{article['title']}}</h1>
                 <aside class="entry-meta iititle2">

@@ -145,7 +145,7 @@ class ArticlesController extends BaseController{
                 'title' => $title,
                 'markdown' => $markdown,
                 'content' => $content,
-                'modify_time' => $time,
+                'create_time' => $time,
                 'cid' => $categorys,
                 'tag_name' => $tagName,
                 'introduce' => explode('<!--more-->', $content)[0],

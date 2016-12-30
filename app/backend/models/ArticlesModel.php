@@ -95,11 +95,11 @@ class ArticlesModel extends BaseModel{
      */
     public function beforeValidationOnCreate(){
         $this -> create_by = $this -> _user['uid'];
-        $this -> create_time = date('Y-m-d H:i:s');
-        $this -> modify_by = $this -> _user['uid'];
-        if(empty($this -> modify_time) || !strtotime($this -> modify_time)){
-            $this -> modify_time = date('Y-m-d H:i:s');
+        if(empty($this -> create_time) || !strtotime($this -> create_time)){
+            $this -> create_time = date('Y-m-d H:i:s');
         }
+        $this -> modify_by = $this -> _user['uid'];
+        $this -> modify_time = date('Y-m-d H:i:s');
     }
 
     /**
@@ -127,9 +127,7 @@ class ArticlesModel extends BaseModel{
      */
     protected function before_update(array $data){
         $data['modify_by'] = $this -> _user['uid'];
-        if(!isset($data['modify_time']) || !strtotime($data['modify_time'])){
-            $data['modify_time'] = date('Y-m-d H:i:s');
-        }
+        $data['modify_time'] = date('Y-m-d H:i:s');
         return $data;
     }
 

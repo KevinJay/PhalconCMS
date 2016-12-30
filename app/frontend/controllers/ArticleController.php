@@ -133,13 +133,12 @@ class ArticleController extends  BaseController{
                 }
             }
         }
+
         $this -> view -> setVars(array(
             'articles' => $articles,
             'paginator' => $paginator,
             'pageNum' => $pageNum,
             'keyword' => $keyword,
-            'cid' => $cid,
-            'tid' => $tid,
         ));
     }
 

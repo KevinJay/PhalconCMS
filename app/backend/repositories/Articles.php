@@ -187,7 +187,7 @@ class Articles extends BaseRepository{
             'head_image' => $data['head_image'],
             'introduce' => $data['introduce'],
             'status' => $data['status'],
-            'modify_time' => $data['modify_time'],
+            'create_time' => $data['create_time'],
         ));
         return $aid;
     }
@@ -205,7 +205,7 @@ class Articles extends BaseRepository{
             //'head_image' => $data['head_image'],
             'introduce' => $data['introduce'],
             'status' => $data['status'],
-            'modify_time' => $data['modify_time'],
+            'create_time' => $data['create_time'],
         ), $aid);
         return $affectedRows;
     }

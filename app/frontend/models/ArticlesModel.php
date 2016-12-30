@@ -39,7 +39,7 @@ class ArticlesModel extends BaseModel{
         $builder = $this->getModelsManager()->createBuilder();
         $builder->from(array('a' => __CLASS__));
         $builder->columns(array(
-            'a.aid', 'a.title', 'a.introduce', 'a.status', 'a.view_number', 'a.modify_by', 'a.modify_time'
+            'a.aid', 'a.title', 'a.introduce', 'a.status', 'a.view_number', 'a.create_time', 'a.modify_by', 'a.modify_time'
         ));
         $builder->where('a.status > :status:', array('status' => 0));
         if (isset($ext['cid']) && $ext['cid'] > 0) {
@@ -134,7 +134,7 @@ class ArticlesModel extends BaseModel{
         $builder->from(array('a' => __CLASS__));
         $builder->addFrom(__NAMESPACE__ . '\\ContentsModel', 'c');
         $builder->columns(array(
-            'a.aid', 'a.title', 'a.status', 'a.view_number', 'a.modify_by', 'a.modify_time', 'c.content'
+            'a.aid', 'a.title', 'a.status', 'a.view_number', 'a.create_time', 'a.modify_by', 'a.modify_time', 'c.content'
         ));
         $result = $builder->where("a.status > :status:", array('status' => 0))
             ->andWhere("a.aid = :aid:", array('aid' => $aid))

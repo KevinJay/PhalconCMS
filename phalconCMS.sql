@@ -129,6 +129,8 @@ CREATE TABLE `options` (
   UNIQUE KEY `UQ_OP_KEY` (`op_key`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='配置表';
 
+insert  into `options`(`id`,`op_key`,`op_value`,`create_by`,`create_time`,`modify_by`,`modify_time`) values (1,'site_name','Marser',1,'2016-11-28 10:48:58',1,'2016-12-01 12:01:33'),(2,'site_url','http://www.marser.cn/',1,'2016-11-28 10:49:20',1,'2016-12-22 12:22:35'),(3,'site_description','描述',1,'2016-11-28 10:49:33',1,'2016-11-28 10:53:10'),(4,'site_keywords','关键字',1,'2016-11-28 10:49:45',1,'2016-11-28 10:53:10'),(5,'page_article_number','10',1,'2016-11-28 11:05:10',1,'2016-12-29 16:11:46'),(6,'recommend_article_number','10',1,'2016-11-28 11:05:19',1,'2016-12-29 16:11:43'),(7,'site_title','标题',1,'2016-12-01 11:54:17',1,'2016-12-01 12:01:33'),(8,'relate_article_number','8',1,'2016-12-21 10:00:38',1,'2016-12-21 10:00:38'),(9,'cdn_url','http://www.marser.cn',1,'2016-12-22 12:16:41',1,'2016-12-24 15:51:59');
+
 /*Table structure for table `tags` */
 
 DROP TABLE IF EXISTS `tags`;
@@ -166,6 +168,8 @@ CREATE TABLE `users` (
   PRIMARY KEY (`uid`),
   UNIQUE KEY `UQ_USERNAME` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC COMMENT='用户表';
+
+insert  into `users`(`uid`,`username`,`password`,`realname`,`phone_number`,`intro`,`status`,`create_by`,`create_time`,`modify_by`,`modify_time`) values (1,'admin','$2a$08$a5xQpBGe70h2giRTST9KYOoNuKZMFFW2vRJj50t5Yy00dEtPUQKJi','admin1','15866669999','',1,1,'2016-10-24 22:58:44',1,'2016-10-24 22:58:44');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

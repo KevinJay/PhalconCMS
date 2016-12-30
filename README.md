@@ -8,7 +8,7 @@ PhalconCMS
 * mysql 5.6+
 * phalcon 3.0+
 
-### 安装
+### 安装步骤
 * 在数据库中导入phalconCMS.sql文件
 * 添加nginx配置，demo:
 ```bash
@@ -47,6 +47,9 @@ PhalconCMS
 	}
 ```
 * 修改app/cache目录权限：chmod -R 0777 app/cache
+* 修改app/config/system/system_{$runtime}.php中的数据库配置
+* 后台(http://www.xxx.com/admin/index/index)登录账号密码：admin  123456
+* 在后台的“站点管理-基本设置”中修改“站点地址”、“CDN地址”等
 
 #### 环境匹配设置
 * 在不同环境（开发、测试、线上）上运行此项目时，请修改index.php中的``` "$runtime" ```值：

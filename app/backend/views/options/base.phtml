@@ -76,3 +76,15 @@
         </form>
     </div>
 </div>
+<script>
+    $('#base-options-btn').on('click', function(){
+        var siteName = $.trim($('#site-name').val());
+        var siteNamePattern = /^[\u4e00-\u9fa5\w-]+$/i;
+        if(!siteNamePattern.test(siteName)){
+            tips_message('站点名称由中英文字符、数字、下划线和横杠组成');
+            return false;
+        }
+
+        $('#base-options-form').submit();
+    });
+</script>

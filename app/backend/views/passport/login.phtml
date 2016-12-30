@@ -33,6 +33,24 @@
     <script src="{{ static_url('ace/js/jquery-2.0.3.min.js?_v=')~assetsVersion }}"></script>
     <script src="{{ static_url('bootstrap/js/bootstrap.min.js?_v=')~assetsVersion }}"></script>
     <script src="{{ static_url('assets/js/public.js?_v=')~assetsVersion }}"></script>
+    <script>
+        $('#login-btn').on('click', function(){
+            var username = $.trim($('#username').val());
+            var usernamePattern = /^[\w-]{4,20}$/i;
+            if(!usernamePattern.test(username)){
+                tips_message('用户名由4-20个英文字符、数字、中下划线组成');
+                return false;
+            }
+
+            var password = $.trim($('#password').val());
+            if(password.length < 6 || password.length > 32){
+                tips_message('密码由6-32个字符组成');
+                return false;
+            }
+
+            $('#login-form').submit();
+        });
+    </script>
 
     {{ partial('public/alert') }}
 </body>

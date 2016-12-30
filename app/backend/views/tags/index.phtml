@@ -87,3 +87,30 @@
         </div>
     </div>
 </div>
+<script>
+    $('.delete-tag').on('click', function(){
+        var dataUrl = $.trim($(this).attr('data-url'));
+        if(!window.confirm('确定要删除选中标签吗？此操作不可挽回')){
+            return false;
+        }
+        window.location.href = dataUrl;
+    });
+
+    $('#tag-btn').on('click', function(){
+        var tagName = $.trim($('#tag-name').val());
+        var tagNamePattern = /^[\u4e00-\u9fa5\w-]+$/i;
+        if(!tagNamePattern.test(tagName)){
+            tips_message('标签名称由中英文字符、数字、下划线和横杠组成');
+            return false;
+        }
+
+        var tagSlug = $.trim($('#tag-slug').val());
+        var tagSlugPattern = /^[\w-]+$/i;
+        if(tagSlug == true && !tagSlugPattern.test(tagSlug)){
+            tips_message('标签缩略名由英文字符、数字、下划线和横杠组成');
+            return false;
+        }
+
+        $('#tag-form').submit();
+    });
+</script>

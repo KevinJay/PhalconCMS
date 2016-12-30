@@ -54,7 +54,7 @@ class UsersModel extends BaseModel{
      */
     protected function before_update(array $data){
         if(empty($data['modify_time'])){
-            $data['modify_time'] = time();
+            $data['modify_time'] = date('Y-m-d H:i:s');
         }
         return $data;
     }

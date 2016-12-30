@@ -94,3 +94,22 @@
         </form>
     </div>
 </div>
+<script>
+    $('#category-btn').on('click', function(){
+        var categoryName = $.trim($('#category-name').val());
+        var categoryNamePattern = /^[\u4e00-\u9fa5\w-]+$/i;
+        if(!categoryNamePattern.test(categoryName)){
+            tips_message('分类名称由中英文字符、数字、下划线和横杠组成');
+            return false;
+        }
+
+        var categorySlug = $.trim($('#category-slug').val());
+        var categorySlugPattern = /^[\w-]+$/i;
+        if(categorySlug == true && !categorySlugPattern.test(categorySlug)){
+            tips_message('分类缩略名由英文字符、数字、下划线和横杠组成');
+            return false;
+        }
+
+        $('#category-form').submit();
+    });
+</script>

@@ -49,7 +49,7 @@ class ArticlesModel extends BaseModel{
         if(isset($ext['keyword']) && !empty($ext['keyword'])){
             $builder->andWhere("a.title like :title:", array('title' => "%{$ext['keyword']}%"));
         }
-        $builder->orderBy('a.modify_time DESC');
+        $builder->orderBy('a.create_time DESC');
 
         $paginator = new PaginatorQueryBuilder(array(
             'builder' => $builder,

@@ -5,7 +5,8 @@ PhalconCMS
 
 ### 推荐环境
 * PHP 5.6+
-* phalcon 2.0+
+* mysql 5.6+
+* phalcon 3.0+
 
 ### 安装
 * 在数据库中导入phalconCMS.sql文件
@@ -45,16 +46,11 @@ PhalconCMS
 	    error_log  /path/logs/PhalconCMS/error.log;
 	}
 ```
+* 修改app/cache目录权限：chmod -R 0777 app/cache
 
 #### 环境匹配设置
 * 在不同环境（开发、测试、线上）上运行此项目时，请修改index.php中的``` "$runtime" ```值：
 ``` dev:开发   test:测试    pro:线上 ```程序会根据此变量，自动匹配环境所需的配置（api,system）文件
-
-#### nginx配置
-
-
-#### 社区
-[Phalcon中文社区][1] (http://www.iphalcon.cn)
 
 #### 作者
 [www.marser.cn][2] (http://www.marser.cn)
@@ -62,6 +58,7 @@ PhalconCMS
 #### QQ群
 * 广州PHP高端交流群：158587573
 * Phalcon玩家群：150237524
+
 
 [1]:	http://www.iphalcon.cn
 [2]:	http://www.marser.cn

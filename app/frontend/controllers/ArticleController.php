@@ -76,7 +76,7 @@ class ArticleController extends  BaseController{
      */
     protected function set_articles_list(){
         $page = intval($this -> request -> get('page', 'trim'));
-        $keyword = $this -> request -> get('keyword', 'trim');
+        $keyword = $this -> request -> get('keyword', 'remove_xss');
         $ext['keyword'] = $keyword;
         if($this -> dispatcher -> hasParam('category')){
             $category = $this -> dispatcher -> getParam('category', 'trim');

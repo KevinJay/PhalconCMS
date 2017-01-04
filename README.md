@@ -48,7 +48,7 @@ PhalconCMS
 ```
 * 修改app/cache目录权限：chmod -R 0777 app/cache
 * 在public/index.php中修改"$runtime"值（dev:开发   test:测试    pro:线上）。程序会根据此变量，匹配不同运行环境所需的配置（app/config/api/, app/config/system/）文件
-* 后台(http://www.xxx.com/admin/index/index) 登录账号密码：admin  123456
+* 后台(http://www.xxx.com/admin/index/index) 登录账号密码：admin  654321
 * 在后台的“站点管理-基本设置”中修改“站点地址”、“CDN地址”等
 
 #### 作者

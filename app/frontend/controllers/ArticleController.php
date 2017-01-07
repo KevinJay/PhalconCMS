@@ -218,13 +218,19 @@ class ArticleController extends  BaseController{
         }
         /** 更新浏览次数 */
         $this -> get_repository('Articles') -> update_views($aid);
-
         /** 设置猜你喜欢文章数据 */
         $cids = array_column($article['categorys'], 'cid');
         $tids = array_column($article['tags'], 'tid');
         $this -> set_guess_you_like($cids, $tids, $aid);
+        /** 生成keywords */
+        $categoryNames = array_column($article['categorys'], 'category_name');
+        $tagsName = array_column($article['tags'], 'tag_name');
 
-        $this -> view -> setVar('article', $article);
+        $this -> view -> setVars(array(
+            'siteTitle' => $article['title'],
+            'siteKeywords' => implode(',', $categoryNames) . ',' . implode(',', $tagsName),
+            'article' => $article,
+        ));
     }
 
     /**

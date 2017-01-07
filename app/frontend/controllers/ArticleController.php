@@ -225,10 +225,12 @@ class ArticleController extends  BaseController{
         /** 生成keywords */
         $categoryNames = array_column($article['categorys'], 'category_name');
         $tagsName = array_column($article['tags'], 'tag_name');
+        $siteKeywords = array_merge($categoryNames, $tagsName);
+        $siteKeywords = array_unique($siteKeywords);
 
         $this -> view -> setVars(array(
             'siteTitle' => $article['title'],
-            'siteKeywords' => implode(',', $categoryNames) . ',' . implode(',', $tagsName),
+            'siteKeywords' => implode(',', $siteKeywords),
             'article' => $article,
         ));
     }

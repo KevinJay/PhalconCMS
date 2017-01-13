@@ -139,6 +139,8 @@ class ArticleController extends  BaseController{
             'paginator' => $paginator,
             'pageNum' => $pageNum,
             'keyword' => $keyword,
+            'cid' => $cid,
+            'tid' => $tid,
         ));
     }
 

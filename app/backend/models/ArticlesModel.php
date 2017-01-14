@@ -38,7 +38,8 @@ class ArticlesModel extends BaseModel{
         $builder = $this->getModelsManager()->createBuilder();
         $builder->from(array('a' => __CLASS__));
         $builder->columns(array(
-            'a.aid', 'a.title', 'a.status', 'a.view_number', 'a.is_recommend', 'a.is_top', 'a.modify_by', 'a.modify_time'
+            'a.aid', 'a.title', 'a.status', 'a.view_number', 'a.is_recommend', 'a.is_top', 'a.create_time',
+            'a.modify_by', 'a.modify_time'
         ));
         $builder->where('a.status > :status:', array('status' => 0));
         if(isset($ext['cid']) && $ext['cid'] > 0){

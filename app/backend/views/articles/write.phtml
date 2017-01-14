@@ -53,7 +53,7 @@
             <div class="form-group">
                 <label for="archive-time" class="col-sm-2 control-label">发布时间</label>
                 <div class="col-sm-9">
-                    <input type="text" name="time" id="archive-time" class="form-control Wdate" {% if article is not empty %}value="{{article['modify_time']}}"{% endif %} />
+                    <input type="text" name="time" id="archive-time" class="form-control Wdate" {% if article is not empty %}value="{{article['create_time']}}"{% endif %} />
                 </div>
             </div>
             <div class="form-group ">

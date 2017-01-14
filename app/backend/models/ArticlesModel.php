@@ -76,7 +76,7 @@ class ArticlesModel extends BaseModel{
         $builder->from(array('a' => __CLASS__));
         $builder->addFrom(__NAMESPACE__ . '\\ContentsModel', 'c');
         $builder->columns(array(
-            'a.aid', 'a.title', 'a.status', 'a.modify_by', 'a.modify_time', 'c.markdown'
+            'a.aid', 'a.title', 'a.status', 'a.create_time', 'a.modify_by', 'a.modify_time', 'c.markdown'
         ));
         $result = $builder->where("a.status > :status:", array('status' => 0))
             ->andWhere("a.aid = :aid:", array('aid' => $aid))

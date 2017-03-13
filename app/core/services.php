@@ -76,10 +76,12 @@ $di -> setShared('db', function () use($config) {
                 //获取分析结果
                 $profile = $profiler -> getLastProfile();
                 $sql = $profile->getSQLStatement();
+                $params = $connection->getSqlVariables();
+                (is_array($params) && count($params)) && $params = json_encode($params);
                 $executeTime = $profile->getTotalElapsedSeconds();
                 //日志记录
                 $logger = \Marser\App\Core\PhalBaseLogger::getInstance();
-                $logger -> write_log("{$sql} {$executeTime}", 'debug');
+                $logger -> write_log("{$sql} {$params} {$executeTime}", 'debug');
             }
         });
     }

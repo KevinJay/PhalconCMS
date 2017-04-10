@@ -8,15 +8,7 @@
  * @link www.marser.cn
  */
 
-use Phalcon\DI\FactoryDefault,
-    Phalcon\Mvc\View,
-    Phalcon\Mvc\Url as UrlResolver,
-    Phalcon\Db\Profiler as DbProfiler,
-    Phalcon\Mvc\Model\Manager as ModelsManager,
-    Phalcon\Mvc\View\Engine\Volt as VoltEngine,
-    Phalcon\Session\Adapter\Files as Session;
-
-$di = new FactoryDefault();
+$di = new Phalcon\DI\FactoryDefault();
 
 /**
  * 设置路由
@@ -37,7 +29,7 @@ $di -> set('router', function(){
  * DI注册session服务
  */
 $di -> setShared('session', function(){
-    $session = new Session();
+    $session = new Phalcon\Session\Adapter\Files();
     $session -> start();
     return $session;
 });
@@ -54,7 +46,7 @@ $di -> set('cookies', function() {
 /**
  * DI注册DB配置
  */
-$di -> setShared('db', function () use($config) {
+$di -> setShared('db', function () use($config, $di) {
     $dbconfig = $config -> database -> db;
     $dbconfig = $dbconfig -> toArray();
     if (!is_array($dbconfig) || count($dbconfig)==0) {
@@ -64,8 +56,8 @@ $di -> setShared('db', function () use($config) {
     if (RUNTIME != 'pro') {
         $eventsManager = new \Phalcon\Events\Manager();
         // 分析底层sql性能，并记录日志
-        $profiler = new DbProfiler();
-        $eventsManager -> attach('db', function ($event, $connection) use ($profiler) {
+        $profiler = new Phalcon\Db\Profiler();
+        $eventsManager -> attach('db', function ($event, $connection) use ($profiler, $di) {
             if($event -> getType() == 'beforeQuery'){
                 //在sql发送到数据库前启动分析
                 $profiler -> startProfile($connection -> getSQLStatement());
@@ -80,7 +72,7 @@ $di -> setShared('db', function () use($config) {
                 (is_array($params) && count($params)) && $params = json_encode($params);
                 $executeTime = $profile->getTotalElapsedSeconds();
                 //日志记录
-                $logger = \Marser\App\Core\PhalBaseLogger::getInstance();
+                $logger = $di->get('logger');
                 $logger -> write_log("{$sql} {$params} {$executeTime}", 'debug');
             }
         });
@@ -107,7 +99,7 @@ $di -> setShared('db', function () use($config) {
  * DI注册modelsManager服务
  */
 $di -> setShared('modelsManager', function() use($di){
-    return new ModelsManager();
+    return new Phalcon\Mvc\Model\Manager();
 });
 
 /**
@@ -123,7 +115,8 @@ $di -> setShared('cache', function() use($config){
  * DI注册日志服务
  */
 $di -> setShared('logger', function() use($di){
-    $logger = \Marser\App\Core\PhalBaseLogger::getInstance();
+    $day = date('Ymd');
+    $logger = new \Marser\App\Core\PhalBaseLogger(ROOT_PATH . "/app/cache/logs/{$day}.log");
     return $logger;
 });
 

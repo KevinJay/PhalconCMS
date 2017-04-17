@@ -13,6 +13,8 @@ try {
     define('RUNTIME', $runtime);
     define('ROOT_PATH', dirname(__DIR__));
 
+    header('X-Powered-By:Marser');
+
     $config = new \Phalcon\Config\Adapter\Php(ROOT_PATH . "/app/config/system/system_{$runtime}.php");
 
     /**

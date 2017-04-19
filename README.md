@@ -59,58 +59,8 @@ PhalconCMS
 * Phalcon玩家群：150237524  <a target="_blank" href="https://shang.qq.com/wpa/qunwpa?idkey=aba021d46bc828231de2464e84a69619696887fe9515512e0ceb8d1bda053826"><img border="0" src="https://pub.idqqimg.com/wpa/images/group.png" alt="Phalcon玩家" title="Phalcon玩家"></a>
 
 
-====================================
-### introduce
-A blog built on Phalcon PHP Framework
-
-### Requirement
-* PHP 5.6+
-* mysql 5.6+
-* phalcon 3.0+
-
-### Get Started
-* import the files of phalconCMS.sql in the database
-* add nginx configuration，demo:
-```bash
-	server {
-	    listen 80;
-	    server_name your-site-name.com;
-	    root /path/PhalconCMS/public;
-	    index index.php index.html index.htm;
-	
-	    location / {
-	        if ($request_uri ~ (.+?\.php)(|/.+)$ ) {
-	            break;
-	        }
-	
-	        if (!-e $request_filename) {
-	            rewrite ^/(.*)$ /index.php?_url=/$1;
-	        }
-	    }
-	
-	    location ~ \.php {
-	        fastcgi_pass  unix:/tmp/php-cgi.sock;
-	        fastcgi_index index.php;
-	        include fastcgi_params;
-	        set $real_script_name $fastcgi_script_name;
-	        if ($fastcgi_script_name ~ "^(.+?\.php)(/.+)$") {
-	            set $real_script_name $1;
-	            set $path_info $2;
-	        }
-	        fastcgi_param SCRIPT_FILENAME $document_root$real_script_name;
-	        fastcgi_param SCRIPT_NAME $real_script_name;
-	        fastcgi_param PATH_INFO $path_info;
-	    }
-	
-	    access_log  /path/logs/PhalconCMS/access.log  access;
-	    error_log  /path/logs/PhalconCMS/error.log;
-	}
-```
-* change permissions the directory of "app/cache" ：chmod -R 0777 app/cache
-* 在public/index.php中修改"$runtime"值（dev:开发   test:测试    pro:线上）。程序会根据此变量，匹配不同运行环境所需的配置（app/config/api/, app/config/system/）文件
-* backend login page(http://www.your-site-name.com/admin/index/index) username/password：admin/654321
-* 在后台的“站点管理-基本设置”中修改“站点地址”、“CDN地址”等
-
+### 升级版本
+[版本升级日志](update.md)
 
 
 

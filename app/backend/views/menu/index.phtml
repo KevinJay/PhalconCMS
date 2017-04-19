@@ -5,81 +5,113 @@
             <a href="{{ url('dashboard/index') }}">控制面板</a>
         </li>
         <li>
-            <a href="{{ url('menu/index') }}">菜单管理</a>
+            <a href="{{ url('menu/index') }}">导航管理</a>
         </li>
     </ul>
 </div>
 <div class="page-content">
-    <div class="page-header">
-        <h1>
-            <a href="{{ url('menu/index') }}">菜单管理</a>
-            <small>
-                <i class="icon-double-angle-right"></i>
-                菜单列表
-            </small>
-        </h1>
-    </div>
     <div class="col-lg-12">
+        <div class="alert alert-block alert-warning">
+            <button type="button" class="close" data-dismiss="alert">
+                <i class="icon-remove"></i>
+            </button>
+            <strong>注意！</strong>
+            导航管理作用于前台界面的导航栏
+        </div>
+
         <div class="btn-panel">
             <a href="{{ url('menu/write') }}" class="btn btn-success btn-sm" role="button">新增菜单</a>
             <a href="{{ url('menu/refresh') }}" class="btn btn-pink btn-sm" role="button">清除菜单缓存</a>
         </div>
-        <div class="table-responsive">
-            <table class="table tree-grid table-bordered table-condensed table-hover" id="menu-table">
-                <thead>
-                <tr>
-                    <th>菜单名称</th>
-                    <th>链接</th>
-                    <th>排序</th>
-                    <th>更新时间</th>
-                    <th>&nbsp;</th>
-                </tr>
-                </thead>
-                {% if menuList is not empty %}
-                    <tbody>
-                        {% for menu in menuList %}
-                            {% if menu['parent_mid'] is not empty %}
-                                <tr class="treegrid-{{menu['mid']}} treegrid-parent-{{menu['parent_mid']}}">
-                            {% else %}
-                                <tr class="treegrid-{{menu['mid']}}">
-                            {% endif %}
-                                <td>
-                                    <a href="{{ url('menu/write?mid='~menu['mid']) }}" title="编辑菜单">
-                                        {{ menu['menu_name'] }}
-                                    </a>
-                                </td>
-                                <td>{{ menu['menu_url'] }}</td>
-                                <td>
-                                    <a href="javascript:void(0);" class="menu-sort-block" data-name="sort"
-                                       data-url="{{ url('menu/savesort') }}"
-                                       data-pk="{{menu['mid']}}" data-type="text"
-                                       data-placement="top" data-title="修改菜单排序">
-                                        {{ menu['sort'] }}
-                                    </a>
-                                </td>
-                                <td>{{ menu['modify_time'] }}</td>
-                                <td>
-                                    <a class="btn btn-xs btn-success" href="{{ url('menu/write?parentmid='~menu['mid']) }}">
-                                        <i class="icon-plus bigger-120"></i>
-                                    </a>
-                                    <a class="btn btn-xs btn-info" href="{{ url('menu/write?mid='~menu['mid']) }}">
-                                        <i class="icon-edit bigger-120"></i>
-                                    </a>
-                                    <button class="btn btn-xs btn-danger delete-menu" data-url="{{ url('menu/delete?mid='~menu['mid']) }}">
-                                        <i class="icon-trash bigger-120"></i>
-                                    </button>
-                                </td>
+
+        <div class="widget-box transparent">
+            <div class="widget-header widget-header-flat">
+                <h4 class="lighter">
+                    <i class="icon-star orange"></i>
+                    <a href="{{ url('menu/index') }}">菜单管理</a>
+                    <small>
+                        <i class="icon-double-angle-right"></i>
+                        菜单列表
+                    </small>
+                </h4>
+                <div class="widget-toolbar">
+                    <a href="#" data-action="collapse">
+                        <i class="icon-chevron-up"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="widget-body">
+                <div class="widget-main no-padding">
+                    <table class="table table-bordered table-striped table-hover" id="menu-table">
+                        <thead>
+                        <tr>
+                            <th>
+                                <i class="icon-caret-right blue"></i>
+                                菜单名称
+                            </th>
+                            <th>
+                                <i class="icon-caret-right blue"></i>
+                                链接
+                            </th>
+                            <th>
+                                <i class="icon-caret-right blue"></i>
+                                排序
+                            </th>
+                            <th>
+                                <i class="icon-caret-right blue"></i>
+                                更新时间
+                            </th>
+                            <th>&nbsp;</th>
+                        </tr>
+                        </thead>
+                        {% if menuList is not empty %}
+                            <tbody>
+                                {% for menu in menuList %}
+                                    {% if menu['parent_mid'] is not empty %}
+                                        <tr class="treegrid-{{menu['mid']}} treegrid-parent-{{menu['parent_mid']}}">
+                                    {% else %}
+                                        <tr class="treegrid-{{menu['mid']}}">
+                                    {% endif %}
+                                    <td>
+                                        <a href="{{ url('menu/write?mid='~menu['mid']) }}" title="编辑菜单">
+                                            {{ menu['menu_name'] }}
+                                        </a>
+                                    </td>
+                                    <td>{{ menu['menu_url'] }}</td>
+                                    <td>
+                                        <a href="javascript:void(0);" class="menu-sort-block" data-name="sort"
+                                           data-url="{{ url('menu/savesort') }}"
+                                           data-pk="{{menu['mid']}}" data-type="text"
+                                           data-placement="top" data-title="修改菜单排序">
+                                            {{ menu['sort'] }}
+                                        </a>
+                                    </td>
+                                    <td>{{ menu['modify_time'] }}</td>
+                                    <td>
+                                        <a class="btn btn-xs btn-success" href="{{ url('menu/write?parentmid='~menu['mid']) }}">
+                                            <i class="icon-plus bigger-120"></i>
+                                        </a>
+                                        <a class="btn btn-xs btn-info" href="{{ url('menu/write?mid='~menu['mid']) }}">
+                                            <i class="icon-edit bigger-120"></i>
+                                        </a>
+                                        <button class="btn btn-xs btn-danger delete-menu" data-url="{{ url('menu/delete?mid='~menu['mid']) }}">
+                                            <i class="icon-trash bigger-120"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        {% else %}
+                            <tbody>
+                            <tr>
+                                <td colspan="8">暂无数据</td>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                {% else %}
-                    <tbody>
-                    <tr>
-                        <td colspan="8">暂无数据</td>
-                    </tr>
-                    </tbody>
-                {% endif %}
-            </table>
+                            </tbody>
+                        {% endif %}
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

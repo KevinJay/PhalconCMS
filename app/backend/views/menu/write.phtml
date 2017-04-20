@@ -5,14 +5,14 @@
             <a href="{{ url('dashboard/index') }}">控制面板</a>
         </li>
         <li>
-            <a href="{{ url('menu/index') }}">菜单管理</a>
+            <a href="{{ url('menu/index') }}">导航管理</a>
         </li>
     </ul>
 </div>
 <div class="page-content">
     <div class="page-header">
         <h1>
-            <a href="{{ url('menu/index') }}">菜单管理</a>
+            <a href="{{ url('menu/index') }}">导航管理</a>
             <small>
                 <i class="icon-double-angle-right"></i>
                 {% if menu is not empty %}
@@ -22,6 +22,13 @@
                 {% endif %}
             </small>
         </h1>
+    </div>
+    <div class="alert alert-block alert-warning">
+        <button type="button" class="close" data-dismiss="alert">
+            <i class="icon-remove"></i>
+        </button>
+        <strong>注意！</strong>
+        导航管理作用于前台界面的菜单栏（即导航条）
     </div>
     <div class="col-lg-12">
         <form action="{{url('menu/save')}}" method="post" class="form-horizontal" id="menu-form">

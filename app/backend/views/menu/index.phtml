@@ -16,7 +16,7 @@
                 <i class="icon-remove"></i>
             </button>
             <strong>注意！</strong>
-            导航管理作用于前台界面的导航栏
+            导航管理作用于前台界面的菜单栏（即导航条）
         </div>
 
         <div class="btn-panel">
@@ -24,11 +24,12 @@
             <a href="{{ url('menu/refresh') }}" class="btn btn-pink btn-sm" role="button">清除菜单缓存</a>
         </div>
 
+
         <div class="widget-box transparent">
             <div class="widget-header widget-header-flat">
                 <h4 class="lighter">
                     <i class="icon-star orange"></i>
-                    <a href="{{ url('menu/index') }}">菜单管理</a>
+                    <a href="{{ url('menu/index') }}">导航管理</a>
                     <small>
                         <i class="icon-double-angle-right"></i>
                         菜单列表
@@ -43,7 +44,7 @@
 
             <div class="widget-body">
                 <div class="widget-main no-padding">
-                    <table class="table table-bordered table-striped table-hover" id="menu-table">
+                    <table class="table table-bordered table-striped table-hover tree-grid" id="menu-table">
                         <thead>
                         <tr>
                             <th>

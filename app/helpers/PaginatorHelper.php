@@ -24,27 +24,31 @@ class PaginatorHelper {
         $page <= 0 && $page = 1;
         //总页码
         $totalPage = ceil($totalRows / $pagesize);
-        $page > $totalPage && $page = $totalPage;
-        //根据$num计算起始页码
-        $space = floor($num / 2);
-        if($page == 1){//当前页码为1
-            $startPage = 1;
-            $endPage = $num;
-        }else if($page == $totalPage){//当前页码为最后一页
-            $endPage = $totalPage;
-            $startPage = $endPage - $num + 1;
-        }else if($page - $space <= 0){ //当前页码小于间隔
-            $startPage = 1;
-            $endPage = $num;
-        }else if($page - $space > 0){ //当前页码大于间隔
-            $startPage = $page - $space;
-            $endPage = $startPage + $num - 1;
-            if($endPage > $totalPage){
-                $startPage = $totalPage - $num + 1;
+        if($totalPage > 0) {
+            $page > $totalPage && $page = $totalPage;
+            //根据$num计算起始页码
+            $space = floor($num / 2);
+            if ($page == 1) {//当前页码为1
+                $startPage = 1;
+                $endPage = $num;
+            } else if ($page == $totalPage) {//当前页码为最后一页
+                $endPage = $totalPage;
+                $startPage = $endPage - $num + 1;
+            } else if ($page - $space <= 0) { //当前页码小于间隔
+                $startPage = 1;
+                $endPage = $num;
+            } else if ($page - $space > 0) { //当前页码大于间隔
+                $startPage = $page - $space;
+                $endPage = $startPage + $num - 1;
+                if ($endPage > $totalPage) {
+                    $startPage = $totalPage - $num + 1;
+                }
             }
+            $startPage <= 0 && $startPage = 1;
+            $endPage > $totalPage && $endPage = $totalPage;
+        }else{
+            $startPage = $endPage = $page;
         }
-        $startPage <= 0 && $startPage = 1;
-        $endPage > $totalPage && $endPage = $totalPage;
         $paginator = range($startPage, $endPage);
         return $paginator;
     }

@@ -35,7 +35,9 @@ class BaseController extends PhalBaseController{
             'assetsVersion' => strtotime(date('Y-m-d H', time()) . ":00:00"),
         ));
 
-        $this -> url -> setStaticBaseUri($this -> get_repository('Options') -> get_option('cdn_url'));
+        $staticUrl = $this -> get_repository('Options') -> get_option('cdn_url');
+        empty($staticUrl) && $staticUrl = $this->systemConfig->app->frontend->assets_url;
+        $this -> url -> setStaticBaseUri($staticUrl);
     }
 
     /**

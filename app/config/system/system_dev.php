@@ -79,7 +79,7 @@ return array(
             'port' => 3306,
             'username' => 'admin',
             'password' => 'admin',
-            'dbname' => 'test',
+            'dbname' => 'PhalconCMS',
             'charset' => 'utf8',
         ),
 

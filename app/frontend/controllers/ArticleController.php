@@ -78,6 +78,7 @@ class ArticleController extends  BaseController{
         $page = intval($this -> request -> get('page', 'trim'));
         $keyword = $this -> request -> get('keyword', 'remove_xss');
         $ext['keyword'] = $keyword;
+        $cid = 0;
         if($this -> dispatcher -> hasParam('category')){
             $category = $this -> dispatcher -> getParam('category', 'trim');
             if(intval($category) <= 0){
@@ -88,6 +89,7 @@ class ArticleController extends  BaseController{
             }
             $ext['cid'] = $cid;
         }
+        $tid = 0;
         if($this -> dispatcher -> hasParam('tag')){
             $tag = $this -> dispatcher -> getParam('tag', 'trim');
             if(intval($tag) <= 0){

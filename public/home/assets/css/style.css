@@ -128,8 +128,8 @@ a.more-link:hover{color:#FFF}
 .entry-content a:hover{color:#00BCF2}
 .entry-content .j_zeng a{color:#fff}
 .entry-content p{margin:0 0 15px 0}
-.entry-content h2{border-left:5px solid #FF6100; padding:5px; padding-left:10px; margin:20px 0; background:#fff; font-size:20px;}
-.entry-content h3{margin-top:30px; margin-bottom:10px; border-bottom:1px solid #ddd; font-size:inherit;}
+.entry-content h2, .c-con h2{border-left:5px solid #FF6100; padding:5px; padding-left:10px; margin:20px 0; background:#fff; font-size:20px;}
+.entry-content h3, .c-con h3{margin-top:30px; margin-bottom:10px; border-bottom:1px solid #ddd;}
 .entry-title{font-size:20px;color:#FF6100;overflow:hidden;height:33px;font-weight:normal; line-height:33px;border-bottom:1px solid #DFDFDF;}
 .c-top2{margin-bottom: 1px;height: 55px;overflow: hidden;background: #fff;padding: 10px;}
 .ds-powered-by{display:none}
@@ -452,3 +452,4 @@ div.bbp-template-notice.info{background:#f0f8ff}
     padding:10px 0px;
 }
 /*前台登录窗体结束*/
+.entry-content pre code, .c-con pre code{font-family: Menlo,Monaco,Consolas,"Courier New",monospace;}

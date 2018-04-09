@@ -60,5 +60,7 @@ class BaseController extends PhalBaseController{
     protected function redirect($url=NULL){
         empty($url) && $url = $this -> request -> getHeader('HTTP_REFERER');
         $this -> response -> redirect($url);
+        $this -> response -> send();
+        exit;
     }
 }

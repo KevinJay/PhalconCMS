@@ -26,7 +26,7 @@ class ArticlesController extends BaseController{
     public function indexAction(){
         $page = intval($this -> request -> get('page', 'trim'));
         $cid = intval($this -> request -> get('cid', 'trim'));
-        $keyword = $this -> request -> get('keyword', 'trim');
+        $keyword = $this -> request -> get('keyword', 'remove_xss');
         /**分页获取文章列表*/
         $pagesize = 10;
         $paginator = $this -> get_repository('Articles') -> get_list($page, $pagesize, array(
